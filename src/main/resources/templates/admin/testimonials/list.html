@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html class="light" lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head-admin :: head-admin('Testimonios')}">
+    <title>Testimonios</title>
+</head>
+<body class="bg-background text-on-surface">
+
+<div th:replace="~{fragments/sidebar :: sidebar('testimonios')}"></div>
+
+<main class="md:ml-64 pt-16 md:pt-0 min-h-[1024px] p-8 lg:p-12 textile-pattern bg-surface">
+    <header class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+        <div>
+            <span class="text-xs font-bold tracking-widest text-secondary uppercase font-label">Gestión de Contenido</span>
+            <h2 class="text-4xl font-black text-primary font-headline mt-2 tracking-tighter">Testimonios</h2>
+        </div>
+        <a th:href="@{/admin/testimonials/create}"
+           class="flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-full font-bold shadow-md hover:shadow-lg hover:bg-primary-container transition-all duration-200">
+            <span class="material-symbols-outlined">add</span>
+            <span>Nuevo Testimonio</span>
+        </a>
+    </header>
+
+    <!-- MENSAJES FLASH -->
+    <div th:if="${successMessage}" class="mb-6 flex items-center gap-3 bg-green-50 border border-green-200 text-green-700 px-5 py-4 rounded-2xl">
+        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">check_circle</span>
+        <span class="font-bold" th:text="${successMessage}"></span>
+    </div>
+    <div th:if="${errorMessage}" class="mb-6 flex items-center gap-3 bg-red-50 border border-red-200 text-red-700 px-5 py-4 rounded-2xl">
+        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">error</span>
+        <span class="font-bold" th:text="${errorMessage}"></span>
+    </div>
+
+    <!-- Grid de tarjetas -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div th:each="t : ${testimonials}"
+             class="bg-surface-container-lowest rounded-3xl p-6 shadow-sm hover:shadow-md transition-all duration-200 flex flex-col gap-4">
+
+            <!-- Foto y nombre -->
+            <div class="flex items-center gap-4">
+                <img th:src="${t.youtubeThumbnailUrl}" th:alt="${t.name}"
+                     class="w-14 h-14 rounded-2xl object-cover bg-surface-container"
+                     referrerpolicy="no-referrer"
+                     onerror="this.src='https://ui-avatars.com/api/?name='+encodeURIComponent(this.alt)+'&background=271b83&color=fff'"/>
+                <div>
+                    <h4 class="font-bold text-on-surface" th:text="${t.name}"></h4>
+                    <p class="text-xs text-on-surface-variant"
+                       th:text="${#temporals.format(t.createdAt, 'dd/MM/yyyy')}"></p>
+                    <span th:if="${t.updatedAt != null and t.updatedAt != t.createdAt}"
+                          class="inline-flex items-center gap-1 text-[10px] font-bold text-secondary">
+                        <span class="material-symbols-outlined" style="font-size:11px">update</span>
+                        <span th:text="'Act. ' + ${#temporals.format(t.updatedAt, 'dd/MM/yyyy HH:mm')}"></span>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Redes -->
+            <div class="flex gap-3">
+                <a th:if="${t.instagramUrl != null and !#strings.isEmpty(t.instagramUrl)}"
+                   th:href="${t.instagramUrl}"
+                   target="_blank"
+                   class="flex items-center gap-1 text-xs text-on-surface-variant hover:text-primary transition-colors">
+                    <svg th:replace="fragments/icons :: instagram"></svg>
+                    Instagram
+                </a>
+                <a th:if="${t.facebookUrl != null and !#strings.isEmpty(t.facebookUrl)}"
+                   th:href="${t.facebookUrl}"
+                   target="_blank"
+                   class="flex items-center gap-1 text-xs text-on-surface-variant hover:text-primary transition-colors">
+                    <svg th:replace="fragments/icons :: facebook"></svg>
+                    Facebook
+                </a>
+            </div>
+
+            <!-- Acciones -->
+            <div class="flex items-center gap-3 mt-auto pt-2 border-t border-outline-variant/20">
+                <a th:href="@{/admin/testimonials/edit/{id}(id=${t.testimonialId})}"
+                   class="flex items-center gap-1 text-xs font-bold text-primary hover:underline transition-colors">
+                    <svg th:replace="fragments/icons :: edit"></svg>
+                    Editar
+                </a>
+                <a th:href="@{/admin/testimonials/delete/{id}(id=${t.testimonialId})}"
+                   class="flex items-center gap-1 text-xs font-bold text-red-500 hover:underline transition-colors">
+                    <svg th:replace="fragments/icons :: delete"></svg>
+                    Eliminar
+                </a>
+            </div>
+        </div>
+
+        <!-- Estado vacío -->
+        <div th:if="${#lists.isEmpty(testimonials)}" class="col-span-3 text-center py-16 text-on-surface-variant">
+            <span class="material-symbols-outlined text-5xl block mb-3">chat</span>
+            No hay testimonios registrados aún.
+        </div>
+    </div>
+</main>
+
+<script>
+    // YouTube devuelve un placeholder gris de 120×90px cuando el video no tiene thumbnail disponible.
+    // Como no es un error 404, el onerror no se dispara. Detectamos ese placeholder por sus dimensiones.
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('img[data-yt-thumb]').forEach(function (img) {
+            function checkPlaceholder() {
+                // El placeholder de YouTube mide exactamente 120×90 px de tamaño natural
+                if (img.naturalWidth === 120 && img.naturalHeight === 90) {
+                    img.src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(img.alt) + '&background=271b83&color=fff';
+                }
+            }
+            if (img.complete) {
+                checkPlaceholder();
+            } else {
+                img.addEventListener('load', checkPlaceholder);
+            }
+        });
+    });
+</script>
+</body>
+</html>

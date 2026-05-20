@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html class="light" lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head-admin :: head-admin('No encontrado')}">
+    <title>No encontrado</title>
+</head>
+<body class="bg-surface text-on-surface font-body flex items-center justify-center min-h-screen">
+<div class="text-center">
+    <span class="material-symbols-outlined text-[120px] text-primary/20 block mb-6"
+          style="font-variation-settings:'FILL' 1">search_off</span>
+    <h1 class="text-6xl font-black text-primary font-headline tracking-tighter mb-4">404</h1>
+    <p class="text-xl text-on-surface-variant mb-2" th:text="${title != null ? title : 'Recurso no encontrado'}">No
+        encontrado</p>
+    <p class="text-on-surface-variant mb-8">El elemento que buscas no existe o fue eliminado.</p>
+    <div class="flex gap-4 justify-center">
+        <a th:href="@{/admin}"
+           class="bg-primary text-white px-8 py-3 rounded-full font-bold hover:shadow-lg transition-all">
+            Ir al Panel
+        </a>
+        <a th:href="@{/}"
+           class="border-2 border-primary text-primary px-8 py-3 rounded-full font-bold hover:bg-primary/5 transition-all">
+            Ir al Inicio
+        </a>
+    </div>
+</div>
+</body>
+</html>

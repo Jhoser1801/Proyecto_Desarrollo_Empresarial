@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html class="light" lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title th:text="${news.title} + ' - Ecuador Comparte'">Noticia - Ecuador Comparte</title>
+    <link rel="icon" type="image/x-icon" th:href="@{/images/logo-ecuador.ico}">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script th:src="@{/js/tailwind-config.js}"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Inter:wght@300;400;500;600&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body class="bg-background text-on-background font-body">
+
+<!-- Barra de progreso de lectura -->
+<div id="readProgress"></div>
+
+<!-- Navbar -->
+<nav class="fixed top-0 w-full z-50 bg-transparent transition-all duration-500" id="navbar">
+    <div class="flex justify-between items-center px-8 h-20 w-full max-w-screen-2xl mx-auto">
+        <a th:href="@{/}"
+           class="w-16 h-16 flex items-center justify-center rounded-full bg-white/20 backdrop-blur-md border border-white/30 shadow-lg hover:scale-105 hover:bg-white/30 transition-all duration-300">
+
+            <img th:src="@{/images/logo-ecuador.png}"
+                 alt="Logo Ecuador Comparte"
+                 class="w-10 h-10 object-contain drop-shadow-md">
+        </a>
+
+        <div class="hidden md:flex items-center space-x-4">
+            <a class="bg-white/20 backdrop-blur-md border border-white/30 text-white px-6 py-2.5 rounded-full font-bold hover:bg-white hover:text-primary transition-all duration-300"
+               href="/#testimonials">
+                Testimonios
+            </a>
+
+            <a class="bg-white/20 backdrop-blur-md border border-white/30 text-white px-6 py-2.5 rounded-full font-bold hover:bg-white hover:text-primary transition-all duration-300"
+               href="/#news">
+                Noticias
+            </a>
+
+            <a class="bg-white/20 backdrop-blur-md border border-white/30 text-white px-6 py-2.5 rounded-full font-bold hover:bg-white hover:text-primary transition-all duration-300"
+               href="/contact">
+                Contacto
+            </a>
+        </div>
+    </div>
+</nav>
+
+<main class="flex flex-col min-h-screen">
+
+    <!-- ═══════════════════════════════════════
+         HERO PARALLAX
+    ════════════════════════════════════════ -->
+    <section id="heroParallax">
+
+        <!-- Imagen con parallax -->
+        <div id="heroBg"
+             th:style="'background-image:url(' + ${news.imageUrl} + '); filter:saturate(1.08) contrast(1.05);'">
+        </div>
+        <!-- Gradientes dramáticos -->
+        <div id="heroGradient"></div>
+        <div id="heroGlow"></div>
+
+        <!-- Contenido del hero -->
+        <div class="relative z-10 w-full max-w-screen-xl mx-auto px-8 pb-16 md:pb-24">
+
+            <!-- Breadcrumb sutil -->
+            <nav class="flex items-center gap-2 text-white/50 text-xs mb-8 font-medium">
+                <a href="/" class="hover:text-white transition-colors">Inicio</a>
+                <span class="material-symbols-outlined text-sm">chevron_right</span>
+                <a href="/#news" class="hover:text-white transition-colors">Noticias</a>
+                <span class="material-symbols-outlined text-sm">chevron_right</span>
+                <span class="text-white/80 truncate max-w-xs" th:text="${news.title}">Noticia</span>
+            </nav>
+
+            <!-- Badges superiores -->
+            <div class="flex flex-wrap items-center gap-3 mb-6">
+                <span class="read-badge">
+                    <span class="material-symbols-outlined text-sm" style="font-size:14px">schedule</span>
+                    <span id="readTime">— min de lectura</span>
+                </span>
+                <span class="read-badge">
+                    <span class="material-symbols-outlined text-sm" style="font-size:14px">calendar_today</span>
+                    <span th:text="${#temporals.format(news.publicationDate, 'dd MMM yyyy')}">Fecha</span>
+                </span>
+            </div>
+
+            <!-- Título -->
+            <h1 class="text-4xl md:text-6xl font-extrabold text-white font-headline leading-[1.05] tracking-tight max-w-4xl mb-6"
+                th:text="${news.title}">Título</h1>
+
+            <!-- Autor -->
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-secondary/80 flex items-center justify-center text-white font-black text-sm" id="authorAvatar" th:data-author="${news.author}">?</div>
+                <div>
+                    <p class="text-white font-bold text-sm" th:text="${news.author}">Autor</p>
+                    <p class="text-white/50 text-xs">Redacción Ecuador Comparte</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll hint -->
+        <div id="scrollHint" class="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1 text-white/40">
+            <span class="text-[10px] uppercase tracking-widest font-bold">Desplázate</span>
+            <span class="material-symbols-outlined text-xl">keyboard_arrow_down</span>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+         CONTENIDO
+    ════════════════════════════════════════ -->
+    <section class="py-20 bg-surface flex-1 textile-pattern" id="articleContent">
+        <div class="max-w-screen-xl mx-auto px-8">
+            <div class="grid md:grid-cols-3 gap-16">
+
+                <!-- Artículo principal -->
+                <article class="md:col-span-2 reveal" id="mainArticle">
+
+                    <!-- Resumen / cita destacada -->
+                    <div class="pull-quote" th:text="${news.summary}">Resumen.</div>
+
+                    <!-- Cuerpo -->
+                    <div class="article-body" th:text="${news.content}" id="articleBody">
+                        Contenido de la noticia.
+                    </div>
+
+                </article>
+
+                <!-- Sidebar -->
+                <aside class="space-y-6">
+
+                    <!-- Metadatos -->
+                    <div class="reveal bg-surface-container-low rounded-3xl p-6 space-y-5 sticky top-24">
+                        <h3 class="font-black text-primary text-xs uppercase tracking-widest border-b border-outline-variant/30 pb-3">
+                            Sobre esta noticia
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="flex items-start gap-3">
+                                <span class="material-symbols-outlined text-secondary mt-0.5" style="font-variation-settings:'FILL' 1;font-size:18px">person</span>
+                                <div>
+                                    <p class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant/50 mb-0.5">Autor</p>
+                                    <p class="text-sm font-bold text-on-surface" th:text="${news.author}">—</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <span class="material-symbols-outlined text-secondary mt-0.5" style="font-variation-settings:'FILL' 1;font-size:18px">calendar_today</span>
+                                <div>
+                                    <p class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant/50 mb-0.5">Publicado</p>
+                                    <p class="text-sm font-bold text-on-surface"
+                                       th:text="${#temporals.format(news.publicationDate, 'dd MMMM yyyy')}">—</p>
+                                </div>
+                            </div>
+                            <!-- Muestra la fecha de actualización solo si la noticia fue editada después de publicarse -->
+                            <div class="flex items-start gap-3"
+                                 th:if="${news.updatedAt != null and #temporals.format(news.updatedAt, 'dd/MM/yyyy HH:mm') != #temporals.format(news.publicationDate, 'dd/MM/yyyy HH:mm')}">
+                                <span class="material-symbols-outlined text-secondary mt-0.5"
+                                      style="font-variation-settings:'FILL' 1;font-size:18px">update</span>
+                                <div>
+                                    <p class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant/50 mb-0.5">Actualizado</p>
+                                    <p class="text-sm font-bold text-on-surface"
+                                       th:text="${#temporals.format(news.updatedAt, 'dd MMMM yyyy, HH:mm')}">—</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <span class="material-symbols-outlined text-secondary mt-0.5" style="font-variation-settings:'FILL' 1;font-size:18px">schedule</span>
+                                <div>
+                                    <p class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant/50 mb-0.5">Tiempo de lectura</p>
+                                    <p class="text-sm font-bold text-on-surface" id="readTimeSidebar">—</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- CTA -->
+                        <div class="bg-primary rounded-2xl p-5 text-white space-y-3 mt-2">
+                            <p class="font-black text-sm leading-snug">¿Te interesa este tema?</p>
+                            <p class="text-white/70 text-xs leading-relaxed">Contáctanos y nuestro equipo te responderá pronto.</p>
+                            <a th:href="@{/contact}"
+                               class="inline-flex items-center gap-2 bg-secondary text-white px-4 py-2 rounded-full font-bold text-xs hover:shadow-lg transition-all w-full justify-center">
+                                <span class="material-symbols-outlined text-sm">mail</span>
+                                Contáctanos
+                            </a>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+         BARRA DE ACCIONES INFERIOR
+    ════════════════════════════════════════ -->
+    <div class="bg-surface backdrop-blur-xl textile-pattern border-t border-white/40 py-6 mt-auto relative overflow-hidden">
+        <div class="max-w-screen-xl mx-auto px-8 flex flex-wrap items-center justify-between gap-4">
+
+            <a href="/#news"
+               class="inline-flex items-center gap-2 text-primary font-bold hover:text-secondary transition-colors group">
+            <span class="material-symbols-outlined group-hover:-translate-x-1 transition-transform">
+                arrow_back
+            </span>
+                Volver a Noticias
+            </a>
+
+            <div class="flex items-center gap-2">
+            <span class="text-xs font-bold text-on-surface-variant/60 uppercase tracking-widest">
+                Compartir
+            </span>
+
+                <button onclick="shareArticle()"
+                        class="w-9 h-9 rounded-full bg-primary/10 hover:bg-primary hover:text-white text-primary flex items-center justify-center transition-all">
+                    <span class="material-symbols-outlined text-base">share</span>
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+</main>
+
+<!-- Footer -->
+<div th:replace="~{fragments/footer-public :: footer-public}"></div>
+
+<script th:src="@{/js/news-detail.js}" src="/static/js/news-detail.js"></script>
+</body>
+</html>

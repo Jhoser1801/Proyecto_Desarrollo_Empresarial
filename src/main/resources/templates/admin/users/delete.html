@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html class="light" lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head-admin :: head-admin('Eliminar Administrador')}">
+    <title>Eliminar Administrador</title>
+</head>
+<body class="bg-background text-on-surface">
+
+<div th:replace="~{fragments/sidebar :: sidebar('usuarios')}"></div>
+
+<main class="md:ml-64 pt-16 md:pt-0 min-h-[1024px] p-8 lg:p-12 flex flex-col items-center textile-pattern bg-surface">
+    <div class="w-full max-w-2xl">
+
+        <!-- Header -->
+        <header class="flex items-center gap-4 mb-10">
+            <a th:href="@{/admin/users}"
+               class="flex items-center justify-center w-10 h-10 rounded-xl bg-surface-container text-on-surface-variant hover:bg-surface-container-low transition-colors">
+                <span class="material-symbols-outlined">arrow_back</span>
+            </a>
+            <div>
+                <span class="text-xs font-bold tracking-widest text-secondary uppercase">
+                    Gestión de Acceso
+                </span>
+                <h2 class="text-4xl font-black text-primary font-headline mt-1 tracking-tighter">
+                    Eliminar Administrador
+                </h2>
+            </div>
+        </header>
+
+        <!-- Usuario no encontrado -->
+        <div th:if="${notFound}"
+             class="bg-red-50 border border-red-200 text-red-700 px-6 py-5 rounded-2xl">
+            <p class="font-bold">Administrador no encontrado.</p>
+            <a th:href="@{/admin/users}" class="text-sm underline mt-2 block">Volver a la lista</a>
+        </div>
+
+        <!-- Confirmación -->
+        <div th:if="${user}">
+            <div class="bg-surface-container-lowest rounded-3xl p-8 shadow-sm">
+
+                <!-- Advertencia -->
+                <div class="flex items-center gap-4 mb-6 p-4 bg-red-50 rounded-2xl border border-red-100">
+                    <span class="material-symbols-outlined text-red-500 text-3xl"
+                          style="font-variation-settings:'FILL' 1">warning</span>
+                    <p class="text-sm font-bold text-red-700">Esta acción no se puede deshacer.</p>
+                </div>
+
+                <p class="text-on-surface-variant mb-6">
+                    ¿Estás seguro de que deseas eliminar al siguiente administrador?
+                </p>
+
+                <!-- Datos Usuario -->
+                <div class="bg-surface-container-low p-4 rounded-2xl mb-8">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-black"
+                             th:text="${#strings.substring(user.name,0,1).toUpperCase()}">
+                        </div>
+                        <div>
+                            <p class="font-bold text-on-surface" th:text="${user.name}"></p>
+                            <p class="text-xs text-on-surface-variant" th:text="${user.email}"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botones -->
+                <div class="flex items-center gap-4">
+                    <form th:action="@{/admin/users/{id}(id=${user.adminId})}" method="post">
+                        <input type="hidden" name="_method" value="delete">
+                        <button type="submit"
+                                class="flex items-center gap-2 bg-red-500 text-white px-8 py-3 rounded-full font-bold shadow-md hover:bg-red-600 transition-all duration-200">
+
+                            <svg th:replace="fragments/icons :: delete" class="w-5 h-5 shrink-0"></svg>
+                            <span>Sí, Eliminar</span>
+                        </button>
+                    </form>
+                    <a th:href="@{/admin/users}"
+                       class="text-on-surface-variant px-6 py-3 rounded-full font-medium hover:bg-surface-container transition-colors">
+                        Cancelar
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</main>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<footer th:fragment="footer-public"
+        class="bg-gradient-to-br from-[#1b135f] via-[#271B83] to-[#120c45] textile-pattern text-white pt-20 pb-10 relative overflow-hidden">
+
+    <div class="absolute top-0 right-0 w-72 h-72 bg-[#F4C27A]/10 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute bottom-0 left-0 w-72 h-72 bg-white/5 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="max-w-screen-2xl mx-auto px-8 relative z-10">
+
+        <div class="grid md:grid-cols-3 gap-12 pb-14 border-b border-white/10">
+
+            <div>
+                <h3 class="text-3xl font-black tracking-tight mb-4">Ecuador Comparte</h3>
+                <p class="text-white/70 leading-relaxed max-w-sm">
+                    Conectamos tradición, identidad y oportunidades globales para impulsar a los visionarios
+                    ecuatorianos.
+                </p>
+            </div>
+
+            <div>
+                <h4 class="text-sm uppercase tracking-[0.25em] text-white/60 font-bold mb-5">Navegación</h4>
+                <div class="space-y-3">
+                    <a href="/#testimonials" class="block hover:text-[#F4C27A] transition-colors">Testimonios</a>
+                    <a href="/#news" class="block hover:text-[#F4C27A] transition-colors">Noticias</a>
+                    <a href="/contact" class="block hover:text-[#F4C27A] transition-colors">Contacto</a>
+                </div>
+            </div>
+
+            <div>
+                <h4 class="text-sm uppercase tracking-[0.25em] text-white/60 font-bold mb-5">Impacto</h4>
+                <div class="space-y-3 text-white/80">
+                    <p>+450 Artesanos activos</p>
+                    <p>15 Provincias conectadas</p>
+                    <p>Mercado global 24/7</p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="pt-8 flex justify-center items-center text-center">
+            <p class="text-white/50 text-sm">© 2026 Ecuador Comparte. Todos los derechos reservados.</p>
+        </div>
+
+    </div>
+
+</footer>
+
+</body>
+</html>

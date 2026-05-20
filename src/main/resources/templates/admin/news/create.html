@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html class="light" lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head-admin :: head-admin('Crear Noticia')}">
+    <title>Crear Noticia</title>
+</head>
+<body class="bg-background text-on-surface">
+
+<div th:replace="~{fragments/sidebar :: sidebar('noticias')}"></div>
+
+<main class="md:ml-64 pt-16 md:pt-0 min-h-[1024px] p-8 lg:p-12 flex flex-col items-center textile-pattern bg-surface">
+    <div class="w-full max-w-4xl">
+        <header class="flex items-center gap-4 mb-10">
+            <a th:href="@{/admin/news}" class="flex items-center justify-center w-10 h-10 rounded-xl bg-surface-container text-on-surface-variant hover:bg-surface-container-low transition-colors">
+                <span class="material-symbols-outlined">arrow_back</span>
+            </a>
+            <div>
+                <span class="text-xs font-bold tracking-widest text-secondary uppercase font-label">Gestión de Contenido</span>
+                <h2 class="text-4xl font-black text-primary font-headline mt-1 tracking-tighter">Crear Noticia</h2>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Formulario -->
+            <form th:action="@{/admin/news}" th:object="${newsRequest}" method="post"
+                  class="bg-surface-container-lowest rounded-3xl p-8 shadow-sm space-y-6">
+
+                <!-- Título -->
+                <div>
+                    <label for="titleInput" class="block text-sm font-bold text-on-surface mb-2">
+                        Título *
+                    </label>
+
+                    <input type="text"
+                           th:field="*{title}"
+                           id="titleInput"
+                           placeholder="Título de la noticia"
+                           oninput="updatePreview()"
+                           th:classappend="${#fields.hasErrors('title')} ? 'ring-2 ring-red-400' : ''"
+                           class="w-full px-4 py-3 rounded-xl border border-outline-variant/40 bg-surface-container-low focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"/>
+
+                    <p th:if="${#fields.hasErrors('title')}"
+                       th:errors="*{title}"
+                       class="text-red-500 text-sm mt-1 ml-1"></p>
+                </div>
+
+                <!-- Resumen -->
+                <div>
+                    <label for="summaryInput" class="block text-sm font-bold text-on-surface mb-2">
+                        Resumen *
+                    </label>
+
+                    <textarea th:field="*{summary}"
+                              id="summaryInput"
+                              rows="2"
+                              placeholder="Breve descripción de la noticia..."
+                              th:classappend="${#fields.hasErrors('summary')} ? 'ring-2 ring-red-400' : ''"
+                              class="w-full px-4 py-3 rounded-xl border border-outline-variant/40 bg-surface-container-low focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all resize-none"></textarea>
+
+                    <p th:if="${#fields.hasErrors('summary')}"
+                       th:errors="*{summary}"
+                       class="text-red-500 text-sm mt-1 ml-1"></p>
+                </div>
+
+                <!-- Contenido -->
+                <div>
+                    <label for="contentInput" class="block text-sm font-bold text-on-surface mb-2">
+                        Contenido *
+                    </label>
+
+                    <textarea th:field="*{content}"
+                              id="contentInput"
+                              rows="6"
+                              placeholder="Contenido completo de la noticia..."
+                              th:classappend="${#fields.hasErrors('content')} ? 'ring-2 ring-red-400' : ''"
+                              class="w-full px-4 py-3 rounded-xl border border-outline-variant/40 bg-surface-container-low focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"></textarea>
+
+                    <p th:if="${#fields.hasErrors('content')}"
+                       th:errors="*{content}"
+                       class="text-red-500 text-sm mt-1 ml-1"></p>
+                </div>
+
+                <!-- URL Imagen -->
+                <div>
+                    <label for="imageUrlInput" class="block text-sm font-bold text-on-surface mb-2">
+                        URL Imagen Principal *
+                    </label>
+
+                    <input type="url"
+                           th:field="*{imageUrl}"
+                           id="imageUrlInput"
+                           placeholder="https://ejemplo.com/imagen.jpg"
+                           oninput="updatePreview()"
+                           th:classappend="${#fields.hasErrors('imageUrl')} ? 'ring-2 ring-red-400' : ''"
+                           class="w-full px-4 py-3 rounded-xl border border-outline-variant/40 bg-surface-container-low focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"/>
+
+                    <p th:if="${#fields.hasErrors('imageUrl')}"
+                       th:errors="*{imageUrl}"
+                       class="text-red-500 text-sm mt-1 ml-1"></p>
+
+                    <p class="text-xs text-on-surface-variant mt-1 ml-1">
+                        La vista previa se actualiza automáticamente.
+                    </p>
+                </div>
+
+                <!-- Autor -->
+                <div>
+                    <label for="authorInput" class="block text-sm font-bold text-on-surface mb-2">
+                        Autor *
+                    </label>
+
+                    <input type="text"
+                           th:field="*{author}"
+                           id="authorInput"
+                           placeholder="Nombre del autor"
+                           th:classappend="${#fields.hasErrors('author')} ? 'ring-2 ring-red-400' : ''"
+                           class="w-full px-4 py-3 rounded-xl border border-outline-variant/40 bg-surface-container-low focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"/>
+
+                    <p th:if="${#fields.hasErrors('author')}"
+                       th:errors="*{author}"
+                       class="text-red-500 text-sm mt-1 ml-1"></p>
+                </div>
+
+                <!-- Estado -->
+                <div>
+                    <label for="statusInput" class="block text-sm font-bold text-on-surface mb-2">
+                        Estado *
+                    </label>
+
+                    <select th:field="*{status}"
+                            id="statusInput"
+                            th:classappend="${#fields.hasErrors('status')} ? 'ring-2 ring-red-400' : ''"
+                            class="w-full px-4 py-3 rounded-xl border border-outline-variant/40 bg-surface-container-low focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all">
+
+                        <option value="">Selecciona un estado...</option>
+                        <option th:each="s : ${states}"
+                                th:value="${s}"
+                                th:text="${s.getVisualName()}"></option>
+                    </select>
+
+                    <p th:if="${#fields.hasErrors('status')}"
+                       th:errors="*{status}"
+                       class="text-red-500 text-sm mt-1 ml-1"></p>
+                </div>
+
+                <div class="flex items-center gap-4 pt-2">
+                    <button type="submit"
+                            class="flex items-center gap-2 bg-primary text-white px-8 py-3 rounded-full font-bold shadow-md hover:shadow-lg hover:bg-primary-container transition-all duration-200">
+                        <span class="material-symbols-outlined">save</span>
+                        <span>Guardar Noticia</span>
+                    </button>
+                    <a th:href="@{/admin/news}"
+                       class="text-on-surface-variant px-6 py-3 rounded-full font-medium hover:bg-surface-container transition-colors">
+                        Cancelar
+                    </a>
+                </div>
+            </form>
+
+            <!-- Vista Previa -->
+            <div class="space-y-3">
+                <p class="text-sm font-bold text-on-surface-variant uppercase tracking-widest px-1">Vista Previa</p>
+                <div class="bg-surface-container-lowest rounded-3xl shadow-sm overflow-hidden border border-outline-variant/20">
+                    <div class="w-full h-44 bg-surface-container overflow-hidden">
+                        <img id="previewImage" src="" alt="Vista previa"
+                             class="w-full h-full object-cover"
+                             style="display:none"
+                             onerror="this.style.display='none'; document.getElementById('previewImagePlaceholder').style.display='flex'"/>
+                        <div id="previewImagePlaceholder"
+                             class="w-full h-full flex items-center justify-center text-on-surface-variant">
+                            <span class="material-symbols-outlined text-5xl opacity-30">image</span>
+                        </div>
+                    </div>
+                    <div class="p-6 space-y-3">
+                        <span class="bg-secondary/10 text-secondary text-xs font-bold px-2 py-1 rounded-lg uppercase">Noticia</span>
+                        <h4 id="previewTitle" class="font-black text-primary font-headline text-xl leading-tight">Título de la noticia</h4>
+                        <p id="previewSummary" class="text-sm text-on-surface-variant line-clamp-2">El resumen de la noticia aparecerá aquí.</p>
+                    </div>
+                </div>
+                <p class="text-xs text-on-surface-variant px-1">
+                    <span class="material-symbols-outlined text-sm align-middle">Info</span>
+                    Asegúrate de que la URL de la imagen sea accesible públicamente.
+                </p>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script th:src="@{/js/news-preview.js}" src="/js/news-preview.js"></script>
+</body>
+</html>

@@ -1,0 +1,127 @@
+/* ============================================================
+   login.css — Ecuador Comparte · Panel de Administración
+   ============================================================ */
+
+/* ── Tipografía base ──────────────────────────────────────── */
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+h1, h2, h3, h4 {
+    font-family: 'Manrope', sans-serif;
+}
+
+/* ── Iconos Material Symbols ──────────────────────────────── */
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+/* ── Fondo con patrón premium ─────────────────────────────── */
+.bg-pattern {
+    position: relative;
+    background-color: #fef7ff;
+    overflow: auto;
+}
+
+.bg-pattern::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+            repeating-linear-gradient(
+                    45deg,
+                    rgba(152, 71, 0, 0.04) 0px,
+                    rgba(152, 71, 0, 0.04) 2px,
+                    transparent 2px,
+                    transparent 18px
+            ),
+            repeating-linear-gradient(
+                    -45deg,
+                    rgba(152, 71, 0, 0.03) 0px,
+                    rgba(152, 71, 0, 0.03) 2px,
+                    transparent 2px,
+                    transparent 18px
+            );
+    opacity: 0.5;
+    z-index: 0;
+}
+
+.bg-pattern > * {
+    position: relative;
+    z-index: 2;
+}
+
+/* ── Animación de entrada ─────────────────────────────────── */
+@keyframes fadeSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-in {
+    animation: fadeSlideUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-in-delay {
+    animation: fadeSlideUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+}
+
+/* ── Inputs ───────────────────────────────────────────────── */
+.input-field {
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input-field:focus {
+    border-color: #271b83;
+    box-shadow: 0 0 0 3px rgba(39, 27, 131, 0.12);
+    outline: none;
+}
+
+/* ── Botón primario ───────────────────────────────────────── */
+.btn-primary {
+    background: linear-gradient(135deg, #271b83 0%, #3e369a 100%);
+    transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(39, 27, 131, 0.30);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+/* ── Ocultar iconos nativos del input password ────────────── */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+    display: none !important;
+}
+
+/* Oculta solo el botón nativo de revelar contraseña en Chrome/Edge,
+   sin afectar la visibilidad del texto dentro del campo */
+input[type="password"]::-webkit-contacts-auto-fill-button,
+input[type="password"]::-webkit-credentials-auto-fill-button {
+    visibility: hidden;
+    pointer-events: none;
+    position: absolute;
+}
+
+/* ── Orbes decorativos ────────────────────────────────────── */
+.orb {
+    filter: blur(60px);
+    border-radius: 50%;
+    position: absolute;
+    pointer-events: none;
+}
+/* Fix: texto e íconos de password visibles en Chrome móvil (Android/iOS)
+   -webkit-text-fill-color sobreescribe el color del texto en inputs */
+input[type="password"] {
+    color: #22133a !important;
+    -webkit-text-fill-color: #22133a !important;
+}

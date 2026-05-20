@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html class="light scroll-smooth" lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Ecuador Comparte - Inicio</title>
+    <link rel="icon" type="image/x-icon" th:href="@{/images/logo-ecuador.ico}">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script th:src="@{/js/tailwind-config.js}"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+          rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body class="bg-background text-on-background font-body tracking-[0.01em] selection:bg-secondary/30">
+
+<!-- ============================================================
+     NAVBAR FIJO
+     - Logo a la izquierda
+     - Links de navegación desktop (ocultos en móvil)
+     - Botón Hamburguesa para móvil
+     ============================================================ -->
+<nav id="navbar"
+     class="fixed top-0 w-full z-50 bg-white/55 backdrop-blur-2xl border-b border-white/30 h-28">
+
+    <div id="navContent"
+         class="flex justify-between items-center px-8 h-28 w-full max-w-screen-2xl mx-auto textile-pattern">
+
+        <!-- Logo -->
+        <a th:href="@{/}" class="flex items-center shrink-0">
+            <img th:src="@{/images/logo-ecuador.png}"
+                 alt="Logo Ecuador Comparte"
+                 class="w-20 h-20 object-contain">
+        </a>
+
+        <!-- Menú desktop -->
+        <div class="hidden md:flex items-center gap-10">
+            <a class="text-slate-600 font-medium hover:text-[#984700] transition-colors duration-300"
+               href="#testimonials">Testimonios</a>
+            <a class="text-slate-600 font-medium hover:text-[#984700] transition-colors duration-300"
+               href="#news">Noticias</a>
+            <a class="text-slate-600 font-medium hover:text-[#984700] transition-colors duration-300"
+               href="#contact">Contacto</a>
+        </div>
+
+        <!-- Botón hamburguesa móvil -->
+        <button id="menuBtn" class="md:hidden text-slate-600">
+            <span class="material-symbols-outlined">menu</span>
+        </button>
+
+    </div>
+
+    <!-- Menú móvil desplegable -->
+    <div id="mobileMenu"
+         class="hidden md:hidden bg-white/95 backdrop-blur-xl border-t border-white/30 px-8 py-6 space-y-4">
+
+        <a href="#testimonials"
+           onclick="closeMobileMenu()"
+           class="flex items-center gap-3 text-slate-600 font-medium hover:text-[#984700] transition-colors py-2 border-b border-slate-100">
+            <span class="material-symbols-outlined text-sm text-primary">groups</span>
+            Testimonios
+        </a>
+
+        <a href="#news"
+           onclick="closeMobileMenu()"
+           class="flex items-center gap-3 text-slate-600 font-medium hover:text-[#984700] transition-colors py-2 border-b border-slate-100">
+            <span class="material-symbols-outlined text-sm text-primary">newspaper</span>
+            Noticias
+        </a>
+
+        <a href="#contact"
+           onclick="closeMobileMenu()"
+           class="flex items-center gap-3 text-slate-600 font-medium hover:text-[#984700] transition-colors py-2 border-b border-slate-100">
+            <span class="material-symbols-outlined text-sm text-primary">mail</span>
+            Contacto
+        </a>
+
+    </div>
+</nav>
+
+<main class="pt-28">
+
+    <!-- ============================================================
+         SECCIÓN HERO
+         - Texto principal con badge, título y botones de acción
+         - Imagen principal con tarjeta flotante decorativa
+         ============================================================ -->
+    <section class="relative min-h-screen flex items-center overflow-hidden textile-pattern">
+
+        <!-- Contenedor principal en grid de 2 columnas -->
+        <div class="max-w-screen-2xl mx-auto px-6 md:px-8 py-20 grid md:grid-cols-2 gap-14 items-center relative z-10">
+
+            <!-- TEXTO -->
+            <div class="space-y-8">
+
+                <!-- Badge superior -->
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-secondary/20 bg-white/70 backdrop-blur-sm">
+                    <span class="w-2 h-2 rounded-full bg-secondary"></span>
+                    <span class="text-secondary font-bold text-[11px] uppercase tracking-[0.22em]">
+                        Nuestra Tierra, Tu Futuro
+                    </span>
+                </div>
+
+                <!-- Título principal -->
+                <h1 class="text-5xl md:text-7xl xl:text-8xl font-black font-headline leading-[0.9] tracking-tighter text-primary">
+                    Empoderando a <br>
+                    <span class="text-secondary">Visionarios</span>
+                    <br> Ecuatorianos
+                </h1>
+
+                <!-- Descripción -->
+                <p class="text-lg md:text-xl text-on-surface-variant max-w-xl leading-relaxed">
+                    Uniendo la artesanía ancestral de los Andes con el mercado digital global.
+                    Somos el puente para los emprendedores más talentosos de Ecuador.
+                </p>
+
+                <!-- Botones de acción -->
+                <div class="flex flex-wrap gap-4 pt-2">
+
+                    <!-- Botón principal -->
+                    <a href="#contact"
+                       class="bg-primary text-white px-8 py-4 rounded-full font-bold shadow-lg hover:-translate-y-1 hover:shadow-xl transition duration-300">
+                        Únete a la Red
+                    </a>
+
+                    <!-- Botón secundario -->
+                    <a href="#testimonials"
+                       class="bg-white border border-slate-200 text-primary px-8 py-4 rounded-full font-bold hover:bg-slate-50 hover:-translate-y-1 transition duration-300">
+                        Ver Testimonios
+                    </a>
+
+                </div>
+
+            </div>
+
+            <!-- IMAGEN -->
+            <div class="relative">
+
+                <!-- Imagen principal con bordes redondeados -->
+                <div class="rounded-[2.5rem] overflow-hidden shadow-2xl border border-white/40">
+                    <img class="w-full h-auto object-cover"
+                         src="https://lh3.googleusercontent.com/aida-public/AB6AXuCmC2K5Zo4b5_bsDH9xlOZ1gZEPAlKcdGM7LMo4Q3wyEZPqepob1T2CDPyd1wsa6Z4TZoD4jw6Gv3i9U-cI5vE5Nb_LE6z3yKkpTVaLB9eE481HJJZAuqWU96isr2kz_G2EHrKF-t9nPvouPVQliwanvlqzHdtfUUOuFKveV9hNJhI7bIo4UBg3L9C3yRiRIYY86I-ckW8bggG__6g6cZSia-n1m75HQpJIzsmT3HKiouqCG2najb57xn1STFdXeotYWT7ubJqbn67h"
+                         alt="Artesana ecuatoriana"
+                         loading="eager"
+                         fetchpriority="high"
+                         decoding="async">
+                </div>
+
+                <!-- Tarjeta flotante decorativa (esquina inferior izquierda) -->
+                <div class="absolute -bottom-6 -left-6 bg-white p-6 rounded-3xl shadow-xl max-w-[260px] border border-slate-100">
+                    <span class="material-symbols-outlined text-secondary text-4xl mb-3"
+                          style='font-variation-settings:"FILL" 1;'>eco</span>
+                    <p class="font-bold text-primary text-lg leading-tight">
+                        100% Sostenible y Herencia Ética
+                    </p>
+                    <p class="text-sm text-on-surface-variant mt-2">
+                        Comercio justo que impulsa familias artesanas.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ============================================================
+         SECCIÓN NUESTRA HISTORIA
+         - Grid de imágenes a la izquierda
+         - Texto descriptivo a la derecha
+         ============================================================ -->
+    <section class="py-32 relative textile-pattern">
+        <div class="max-w-screen-2xl mx-auto px-8">
+            <div class="grid md:grid-cols-12 gap-16 items-center">
+
+                <!-- Collage de imágenes -->
+                <div class="md:col-span-5 relative">
+                    <div class="grid grid-cols-2 gap-4">
+
+                        <!-- Imagen 1 (con padding top para efecto escalonado) -->
+                        <div class="pt-12">
+                            <img class="rounded-3xl aspect-square object-cover shadow-lg"
+                                 alt="Plantación de cacao orgánico en el Amazonas ecuatoriano"
+                                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6S2vXeOfchUmdxGWR5N6Ny3kPfqk0-1AlcoN5LMcaArYFUCvGxSV61AmDIDxeeMbhLvfIcYKiDx4plQYV_XEXtbjqcSLz1uk30zL8AnMRjyz9tOwqyG5OMm_E6fG7fTpJGgma8RXt3hZsFM05Ev-Xkdu7Sa3GogIrpEbP8TJZY50xDC4rJXJMH_UkGjqWjEXtNHq8IZYp7Z9lhzbF3TQlfu4CzmczNC952oRlNWx8efXM_X4gDDEsSfC0x_j0gkTIncjCbq9eKGOv"
+                                 loading="lazy" decoding="async">
+                        </div>
+
+                        <!-- Imagen 2 -->
+                        <div>
+                            <img class="rounded-3xl aspect-[3/4] object-cover shadow-lg"
+                                 alt="Detalle arquitectónico de eco-lodge en las montañas ecuatorianas"
+                                 src="https://th.bing.com/th/id/R.0ec744b2d3770fdf086fbb03fa460e19?rik=mJdW2ll0sGT3hw&pid=ImgRaw&r=0"
+                                 loading="lazy" decoding="async">
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Texto de historia -->
+                <div class="md:col-span-7 space-y-8">
+                    <div class="space-y-4">
+                        <h2 class="text-sm font-bold text-secondary uppercase tracking-[0.3em] font-label">
+                            Nuestra Historia
+                        </h2>
+                        <h3 class="text-5xl font-black font-headline text-primary">
+                            Desde Quito al Mundo, <br>con Propósito.
+                        </h3>
+                    </div>
+                    <div class="space-y-6 text-lg text-on-surface-variant leading-relaxed">
+                        <p>Fundada en 2020, Ecuador Comparte surgió de una observación simple: la
+                            increíble brecha entre el profundo talento de nuestros creadores locales y las herramientas
+                            globales necesarias para prosperar en el comercio moderno.</p>
+                        <p>Creemos que la tradición no es estática. Es una base viva para la
+                            innovación. Nuestra misión es digitalizar el alma de la artesanía ecuatoriana,
+                            proporcionando una plataforma donde las historias son tan valiosas como los productos
+                            mismos.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECCIÓN ESTADÍSTICAS (COUNTERS)
+         - Fondo degradado marrón
+         - 4 contadores animados: artesanos, mercado, riqueza, provincias
+         ============================================================ -->
+    <section class="py-28 relative overflow-hidden textile-pattern bg-gradient-to-r from-[#5a3217] via-[#7a4722] to-[#8B5A2B] text-white">
+
+        <!-- Contenido -->
+        <div class="max-w-screen-2xl mx-auto px-6 relative z-10">
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-10 text-center">
+
+                <!-- Counter: Artesanos -->
+                <div class="space-y-3">
+                    <div class="counter text-5xl md:text-6xl font-extrabold text-[#F4C27A]"
+                         data-target="450" data-suffix="+">0</div>
+                    <p class="text-xs md:text-sm uppercase tracking-widest text-white/80">Artesanos Activos</p>
+                </div>
+
+                <!-- Counter: Mercado Global -->
+                <div class="space-y-3">
+                    <div class="counter text-5xl md:text-6xl font-extrabold text-[#F4C27A]"
+                         data-target="24" data-suffix="/7">0</div>
+                    <p class="text-xs md:text-sm uppercase tracking-widest text-white/80">Mercado Global</p>
+                </div>
+
+                <!-- Counter: Riqueza generada -->
+                <div class="space-y-3">
+                    <div class="counter text-5xl md:text-6xl font-extrabold text-[#F4C27A]"
+                         data-target="2.4" data-prefix="$" data-suffix="M">0</div>
+                    <p class="text-xs md:text-sm uppercase tracking-widest text-white/80">Riqueza para la Comunidad</p>
+                </div>
+
+                <!-- Counter: Provincias -->
+                <div class="space-y-3">
+                    <div class="counter text-5xl md:text-6xl font-extrabold text-[#F4C27A]"
+                         data-target="15">0</div>
+                    <p class="text-xs md:text-sm uppercase tracking-widest text-white/80">Provincias</p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Decoración: orbes de fondo -->
+        <div class="absolute -top-20 -right-20 w-72 h-72 bg-white/5 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -bottom-20 -left-20 w-64 h-64 bg-[#F4C27A]/10 rounded-full blur-3xl pointer-events-none"></div>
+
+    </section>
+
+    <!-- ============================================================
+         SECCIÓN TESTIMONIOS
+         - Slider horizontal con tarjetas de video de YouTube
+         - Estado vacío si no hay testimonios en BD
+         - FIX MÓVIL: botones visibles en todos los tamaños +
+           soporte de swipe táctil (ver script al final)
+         ============================================================ -->
+    <section class="py-32 textile-pattern" id="testimonials" xmlns:th="http://www.thymeleaf.org">
+        <div class="max-w-screen-2xl mx-auto px-8">
+
+            <!-- Header de sección -->
+            <div class="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6">
+                <div>
+                    <h2 class="text-sm font-bold text-secondary uppercase tracking-[0.3em] mb-4">
+                        Testimonios
+                    </h2>
+                    <h3 class="text-5xl font-black text-primary">
+                        Voces de nuestra comunidad.
+                    </h3>
+                </div>
+            </div>
+
+            <!-- Estado vacío: se muestra si no hay testimonios en la BD -->
+            <div th:if="${#lists.isEmpty(testimonials)}" class="text-center py-16 text-on-surface-variant">
+                <span class="material-symbols-outlined text-6xl block mb-4 opacity-30">chat</span>
+                <p class="text-lg font-medium">Próximamente compartiremos testimonios.</p>
+            </div>
+
+            <!-- SLIDER: se muestra solo si hay testimonios -->
+            <div th:unless="${#lists.isEmpty(testimonials)}" class="relative">
+
+                <button onclick="scrollSlider(-1)"
+                        class="absolute left-0 top-1/2 -translate-y-1/2 z-20
+                               w-11 h-11 md:w-14 md:h-14
+                               -translate-x-1 md:-translate-x-4
+                               rounded-full bg-white border border-white/60 shadow-2xl
+                               flex items-center justify-center
+                               hover:scale-110 hover:-translate-x-1 transition-[transform] duration-200">
+                    <span class="material-symbols-outlined text-primary text-2xl md:text-3xl">chevron_left</span>
+                </button>
+
+                <div id="slider"
+                     class="flex gap-8 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-6 touch-pan-x"
+                     style="scrollbar-width: none; -ms-overflow-style: none;">
+
+                    <div th:each="t : ${testimonials}"
+                         class="group slider-card flex-shrink-0 w-[75vw] sm:w-[60vw] md:min-w-[320px] md:w-auto
+                                bg-white rounded-[2.5rem] overflow-hidden shadow-xl snap-start
+                                hover:shadow-2xl hover:-translate-y-2
+                                transition-[transform,box-shadow] duration-300">
+
+                        <!-- Miniatura del video con enlace a YouTube -->
+                        <a th:href="${t.videoUrl}" target="_blank" rel="noopener noreferrer"
+                           class="block w-full h-[240px] md:h-[300px] overflow-hidden relative">
+
+                            <img th:src="${t.youtubeThumbnailUrl}" referrerpolicy="no-referrer"
+                                 th:alt="${t.name}"
+                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                 loading="lazy" decoding="async"
+                                 onerror="this.src='https://ui-avatars.com/api/?name='+encodeURIComponent(this.alt)+'&background=271b83&color=fff'"/>
+
+                            <!-- Ícono Play superpuesto -->
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <div class="w-16 h-16 bg-yt-play-bg rounded-full flex items-center justify-center group-hover:bg-yt-play-hover transition-colors duration-300">
+                                    <svg class="w-7 h-7 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M8 5v14l11-7z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        </a>
+
+                        <!-- Contenido de la tarjeta -->
+                        <div class="p-5">
+                            <h4 class="text-xl font-black text-primary tracking-tight mb-1" th:text="${t.name}"></h4>
+                            <p class="text-sm text-on-surface-variant italic mb-3">
+                                Historias reales que inspiran nuevas oportunidades.
+                            </p>
+
+                            <!-- Íconos de redes sociales (se muestran solo si tienen URL) -->
+                            <div class="flex gap-1">
+                                <a th:if="${t.instagramUrl != null and !#strings.isEmpty(t.instagramUrl)}"
+                                   th:href="${t.instagramUrl}" target="_blank"
+                                   class="inline-flex items-center justify-center w-11 h-11 rounded-xl text-pink-500 bg-pink-50 hover:bg-pink-100 transition-colors duration-150">
+                                    <svg th:replace="fragments/icons :: instagram"></svg>
+                                </a>
+                                <a th:if="${t.facebookUrl != null and !#strings.isEmpty(t.facebookUrl)}"
+                                   th:href="${t.facebookUrl}" target="_blank"
+                                   class="inline-flex items-center justify-center w-11 h-11 rounded-xl text-blue-600 bg-blue-50 hover:bg-blue-100 transition-colors duration-150">
+                                    <svg th:replace="fragments/icons :: facebook"></svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <button onclick="scrollSlider(1)"
+                        class="absolute right-0 top-1/2 -translate-y-1/2 z-20
+                               w-11 h-11 md:w-14 md:h-14
+                               translate-x-1 md:translate-x-4
+                               rounded-full bg-white border border-white/60 shadow-2xl
+                               flex items-center justify-center
+                               hover:scale-110 hover:translate-x-1 transition-[transform] duration-200">
+                    <span class="material-symbols-outlined text-primary text-2xl md:text-3xl">chevron_right</span>
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- Separador decorativo -->
+        <div class="w-20 h-1 bg-secondary mx-auto rounded-full mb-6 mt-10"></div>
+
+        <!-- Cita inspiracional debajo del slider -->
+        <div class="mt-14 text-center max-w-3xl mx-auto">
+            <div class="text-4xl text-secondary/20 font-black leading-none">"</div>
+            <p class="text-lg text-on-surface-variant leading-relaxed">
+                Historias reales de emprendedores que han transformado sus negocios tradicionales y hoy inspiran a nuevas generaciones.
+            </p>
+        </div>
+    </section>
+    <!-- ============================================================
+           SECCIÓN NOTICIAS
+           - Slider horizontal con tarjetas de noticias de la BD
+           - Estado vacío si no hay noticias publicadas
+           - FIX MÓVIL: mismo fix aplicado que en testimonios
+           ============================================================ -->
+    <section class="py-32 textile-pattern" id="news" xmlns:th="http://www.thymeleaf.org">
+        <div class="max-w-screen-2xl mx-auto px-8">
+
+            <!-- Header de sección -->
+            <div class="flex justify-between items-end mb-16">
+                <h3 class="text-5xl font-black font-headline text-primary">
+                    Últimas Noticias.
+                </h3>
+            </div>
+
+            <!-- Estado vacío: se muestra si no hay noticias publicadas en la BD -->
+            <div th:if="${#lists.isEmpty(news)}" class="text-center py-16 text-on-surface-variant">
+                <span class="material-symbols-outlined text-6xl block mb-4 opacity-30">newspaper</span>
+                <p class="text-lg font-medium">Próximamente, publicaremos noticias de nuestra comunidad.</p>
+            </div>
+
+            <!-- SLIDER: se muestra solo si hay noticias -->
+            <div th:unless="${#lists.isEmpty(news)}" class="relative">
+
+                <button onclick="scrollNews(-1)"
+                        class="absolute left-0 top-1/2 -translate-y-1/2 z-20
+                               w-11 h-11 md:w-14 md:h-14
+                               -translate-x-1 md:-translate-x-4
+                               rounded-full bg-white border border-white/60 shadow-2xl
+                               flex items-center justify-center
+                               hover:scale-110 hover:-translate-x-1 transition-[transform] duration-200">
+                    <span class="material-symbols-outlined text-primary text-2xl md:text-3xl">chevron_left</span>
+                </button>
+
+                <div id="newsSlider"
+                     class="flex gap-8 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-6 touch-pan-x"
+                     style="scrollbar-width: none; -ms-overflow-style: none;">
+                    <div th:each="n : ${news}"
+                         class="group slider-card flex-shrink-0 w-[75vw] sm:w-[60vw] md:min-w-[340px] md:w-auto
+                                bg-white border border-white/60 rounded-[2.5rem] overflow-hidden shadow-xl snap-start
+                                hover:shadow-2xl hover:-translate-y-2
+                                transition-[transform,box-shadow] duration-300">
+
+                        <!-- Imagen de la noticia -->
+                        <div class="w-full h-[200px] md:h-[220px] overflow-hidden">
+                            <img th:src="${n.imageUrl}" th:alt="${n.title}"
+                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                 loading="lazy" decoding="async"
+                                 onerror="this.style.display='none'"/>
+                        </div>
+
+                        <!-- Contenido de la tarjeta -->
+                        <div class="p-6 space-y-3">
+
+                            <!-- Autor -->
+                            <span class="text-[11px] tracking-[0.25em] font-bold uppercase tracking-widest text-secondary"
+                                  th:text="${n.author}">Autor</span>
+
+                            <!-- Título -->
+                            <h4 class="text-xl font-black text-primary leading-tight tracking-tight"
+                                th:text="${n.title}"></h4>
+
+                            <!-- Resumen (máximo 3 líneas) -->
+                            <p class="text-sm text-on-surface-variant line-clamp-3"
+                               th:text="${n.summary}"></p>
+
+                            <!-- Fecha de publicación formateada -->
+                            <p class="text-xs text-on-surface-variant/60 uppercase"
+                               th:text="${#temporals.format(n.publicationDate, 'dd MMM yyyy')}"></p>
+
+                            <!-- Enlace a detalle de noticia -->
+                            <a th:href="@{/noticias/{id}(id=${n.newsId})}"
+                               class="inline-flex items-center gap-2 text-sm font-black text-primary hover:text-secondary transition-all pt-2 group">
+                                Leer más
+                                <span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition">
+                                    arrow_forward
+                                </span>
+                            </a>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <button onclick="scrollNews(1)"
+                        class="absolute right-0 top-1/2 -translate-y-1/2 z-20
+                               w-11 h-11 md:w-14 md:h-14
+                               translate-x-1 md:translate-x-4
+                               rounded-full bg-white border border-white/60 shadow-2xl
+                               flex items-center justify-center
+                               hover:scale-110 hover:translate-x-1 transition-[transform] duration-200">
+                    <span class="material-symbols-outlined text-primary text-2xl md:text-3xl">chevron_right</span>
+                </button>
+
+            </div>
+
+            <!-- Separador decorativo -->
+            <div class="w-20 h-1 bg-secondary mx-auto rounded-full mb-6 mt-10"></div>
+
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECCIÓN CONTACTO (CTA)
+         - Llamado a la acción para redirigir al formulario de contacto
+         ============================================================ -->
+    <section class="py-24 relative overflow-hidden textile-pattern" id="contact">
+        <div class="max-w-screen-2xl mx-auto px-8 relative z-10 text-center">
+
+            <span class="text-xs font-bold text-secondary uppercase tracking-widest">¿Tienes alguna pregunta?</span>
+
+            <h3 class="text-5xl font-black font-headline text-primary mt-3 mb-6 tracking-tighter">
+                Construyamos el futuro <span class="text-secondary">juntos.</span>
+            </h3>
+
+            <p class="text-xl text-on-surface-variant max-w-xl mx-auto leading-relaxed mb-10">
+                Ya seas un artesano, un inversor o un narrador de historias, queremos saber de ti.
+                Escríbenos y nuestro equipo te responderá a la brevedad.
+            </p>
+
+            <!-- Botón que lleva al formulario de contacto -->
+            <a th:href="@{/contact}"
+               class="inline-flex items-center gap-3 bg-primary text-white px-10 py-4 rounded-full font-black text-lg shadow-xl hover:shadow-primary/30 hover:-translate-y-1 transition-all duration-300">
+                <span class="material-symbols-outlined">mail</span>
+                Contáctanos
+            </a>
+
+        </div>
+
+        <!-- Orbe decorativo de fondo -->
+        <div class="absolute -bottom-40 -left-40 w-96 h-96 bg-secondary/10 rounded-full blur-[100px]"></div>
+    </section>
+
+</main>
+
+<!-- Footer público (fragmento reutilizable) -->
+<div th:replace="~{fragments/footer-public :: footer-public}"></div>
+
+<!-- Script principal del home (counters, navbar scroll, etc.) -->
+<script th:src="@{/js/home.js}" src="/static/js/home.js"></script>
+
+</body>
+</html>

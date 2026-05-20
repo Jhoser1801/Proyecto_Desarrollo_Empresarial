@@ -1,0 +1,343 @@
+
+/* FUENTES GLOBALES*/
+
+body{
+    font-family:'Inter',sans-serif;
+    text-rendering:optimizeLegibility;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+}
+
+.font-headline,
+h1,h2,h3,h4{
+    font-family:'Manrope',sans-serif;
+}
+
+
+/* ICONOS MATERIAL SYMBOLS*/
+
+.material-symbols-outlined{
+    font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24;
+    user-select:none;
+    vertical-align:middle;
+}
+
+
+/*TABLA CONTACTOS*/
+
+.row-active{
+    border-left:4px solid #984700;
+    background:#fff;
+}
+
+
+.textile-pattern{
+    position:relative;
+    overflow-x:hidden;
+    background-color:#f8f5f0;
+    isolation:isolate;
+}
+
+/* textura */
+.textile-pattern::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    z-index:1;
+
+    background-image:
+            repeating-linear-gradient(
+                    45deg,
+                    rgba(152,71,0,.035) 0px,
+                    rgba(152,71,0,.035) 1px,
+                    transparent 1px,
+                    transparent 18px
+            ),
+            repeating-linear-gradient(
+                    -45deg,
+                    rgba(39,27,131,.03) 0px,
+                    rgba(39,27,131,.03) 1px,
+                    transparent 1px,
+                    transparent 18px
+            );
+
+    opacity:.55;
+}
+/* contenido encima */
+.textile-pattern > *{
+    position:relative;
+    z-index:3;
+}
+/* FOOTER TEXTURA OSCURA */
+footer.textile-pattern::after{
+    background-image:
+            repeating-linear-gradient(
+                    45deg,
+                    rgba(255,255,255,.045) 0px,
+                    rgba(255,255,255,.045) 1px,
+                    transparent 1px,
+                    transparent 18px
+            ),
+            repeating-linear-gradient(
+                    -45deg,
+                    rgba(255,255,255,.03) 0px,
+                    rgba(255,255,255,.03) 1px,
+                    transparent 1px,
+                    transparent 18px
+            );
+
+    opacity:.35;
+}
+
+.bg-white\/80.textile-pattern::after{
+    opacity:.16;
+}
+
+
+/*SIDEBAR ADMIN */
+
+.sidebar-texture{
+    position:relative;
+    overflow:hidden;
+}
+
+.sidebar-texture::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    z-index:1;
+
+    background-image:
+            repeating-linear-gradient(
+                    45deg,
+                    rgba(39,27,131,.02) 0px,
+                    rgba(39,27,131,.02) 1px,
+                    transparent 1px,
+                    transparent 16px
+            ),
+            repeating-linear-gradient(
+                    -45deg,
+                    rgba(0,0,0,.012) 0px,
+                    rgba(0,0,0,.012) 1px,
+                    transparent 1px,
+                    transparent 18px
+            );
+}
+
+.sidebar-texture > *{
+    position:relative;
+    z-index:2;
+}
+
+
+
+/* ============================================================
+   REVEAL SCROLL
+   ============================================================ */
+
+.reveal{
+    opacity:0;
+    transform:translateY(26px);
+    transition:
+            opacity .6s ease,
+            transform .6s ease;
+    will-change:transform,opacity;
+}
+
+.reveal.show,
+.reveal.visible{
+    opacity:1;
+    transform:none;
+}
+
+
+
+/* ============================================================
+   HERO NEWS DETAIL
+   ============================================================ */
+
+#heroParallax{
+    position:relative;
+    min-height:100vh;
+    overflow:hidden;
+    display:flex;
+    align-items:flex-end;
+}
+
+#heroBg{
+    position:absolute;
+    inset:0;
+    z-index:1;
+
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+
+    transform:scale(1.05);
+
+    filter:
+            saturate(1.08)
+            contrast(1.04)
+            brightness(1.02);
+}
+
+#heroGradient{
+    position:absolute;
+    inset:0;
+    z-index:2;
+
+    background:
+            linear-gradient(
+                    to top,
+                    rgba(0,0,0,.72) 0%,
+                    rgba(0,0,0,.38) 35%,
+                    rgba(0,0,0,.10) 65%,
+                    rgba(0,0,0,.02) 100%
+            );
+}
+
+#heroGlow{
+    position:absolute;
+    inset:0;
+    z-index:2;
+
+    background:
+            radial-gradient(
+                    circle at 75% 20%,
+                    rgba(255,255,255,.12),
+                    transparent 42%
+            );
+}
+
+
+/* ============================================================
+   BADGES NEWS DETAIL
+   ============================================================ */
+
+.read-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:.45rem;
+    padding:.55rem .9rem;
+    border-radius:9999px;
+    background:rgba(255,255,255,.14);
+    border:1px solid rgba(255,255,255,.18);
+    backdrop-filter:blur(10px);
+    color:#fff;
+    font-size:.8rem;
+    font-weight:700;
+}
+
+
+/* ============================================================
+   ARTICLE BODY
+   ============================================================ */
+
+.article-body{
+    line-height:1.9;
+    font-size:1.08rem;
+    color:#374151;
+    white-space:pre-line;
+}
+
+.article-body p + p{
+    margin-top:1rem;
+}
+
+.pull-quote{
+    font-size:1.25rem;
+    line-height:1.7;
+    font-weight:700;
+    color:#271B83;
+    border-left:4px solid #984700;
+    padding-left:1rem;
+    margin-bottom:2rem;
+}
+
+
+/* ============================================================
+   BARRA PROGRESO LECTURA
+   ============================================================ */
+
+#readProgress{
+    position:fixed;
+    top:0;
+    left:0;
+    width:0;
+    height:4px;
+    z-index:999;
+    background:linear-gradient(90deg,#271B83,#984700);
+}
+
+
+/* ============================================================
+   ACCESSIBILITY
+   ============================================================ */
+
+@media (prefers-reduced-motion:reduce){
+
+    *,
+    *::before,
+    *::after{
+        animation:none !important;
+        transition:none !important;
+        scroll-behavior:auto !important;
+    }
+
+    .reveal{
+        opacity:1;
+        transform:none;
+    }
+}
+
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width:768px){
+
+    #heroParallax{
+        min-height:88vh;
+    }
+
+    #heroBg{
+        transform:scale(1.02);
+    }
+
+    .article-body{
+        font-size:1rem;
+        line-height:1.8;
+    }
+}
+
+/* fragmento del list del contact*/
+
+.expand-row { display: none; animation: slideDown 0.25s ease forwards; }
+.expand-row.open { display: table-row; }
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+.contact-row.row-active > td { background-color: rgba(39,27,131,0.05); }
+.stat-bar-fill { transition: width 0.8s cubic-bezier(.4,0,.2,1); }
+.chevron-icon { transition: transform 0.2s ease; }
+.contact-row.row-active .chevron-icon { transform: rotate(90deg); }
+.stat-card { transition: transform 0.15s ease, box-shadow 0.15s ease; cursor: pointer; }
+.stat-card:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(39,27,131,0.13); }
+.stat-card.active-filter { outline: 2px solid currentColor; outline-offset: 2px; }
+
+/* Tarjetas de slider — capa GPU solo en hover,
+   no para todas al entrar la sección */
+.slider-card {
+    will-change: auto;
+}
+.slider-card:hover {
+    will-change: transform;
+}

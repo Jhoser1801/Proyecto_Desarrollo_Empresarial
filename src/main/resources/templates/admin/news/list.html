@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html class="light" lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head-admin :: head-admin('Noticias')}">
+    <title>Noticias</title>
+</head>
+<body class="bg-background text-on-surface">
+
+<div th:replace="~{fragments/sidebar :: sidebar('noticias')}"></div>
+
+<main class="md:ml-64 pt-16 md:pt-0 min-h-[1024px] p-8 lg:p-12 textile-pattern bg-surface">
+    <header class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+        <div>
+            <span class="text-xs font-bold tracking-widest text-secondary uppercase font-label">Gestión de Contenido</span>
+            <h2 class="text-4xl font-black text-primary font-headline mt-2 tracking-tighter">Noticias</h2>
+        </div>
+        <a th:href="@{/admin/news/create}"
+           class="flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-full font-bold shadow-md hover:shadow-lg hover:bg-primary-container transition-all duration-200">
+            <span class="material-symbols-outlined">add</span>
+            <span>Nueva Noticia</span>
+        </a>
+    </header>
+
+    <!-- Mensajes flash -->
+    <div th:if="${successMessage}" class="mb-6 flex items-center gap-3 bg-green-50 border border-green-200 text-green-700 px-5 py-4 rounded-2xl">
+        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">check_circle</span>
+        <span class="font-bold" th:text="${successMessage}"></span>
+    </div>
+    <div th:if="${errorMessage}" class="mb-6 flex items-center gap-3 bg-red-50 border border-red-200 text-red-700 px-5 py-4 rounded-2xl">
+        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">error</span>
+        <span class="font-bold" th:text="${errorMessage}"></span>
+    </div>
+
+    <!-- Tabla de noticias -->
+    <div class="bg-surface-container-lowest rounded-3xl shadow-sm overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left min-w-[640px]">
+            <thead class="bg-surface-container-high">
+            <tr>
+                <th class="px-6 py-4 text-xs font-black text-primary uppercase tracking-widest">Título</th>
+                <th class="px-6 py-4 text-xs font-black text-primary uppercase tracking-widest">Autor</th>
+                <th class="px-6 py-4 text-xs font-black text-primary uppercase tracking-widest">Estado</th>
+                <th class="px-6 py-4 text-xs font-black text-primary uppercase tracking-widest">Fecha</th>
+                <th class="px-6 py-4 text-xs font-black text-primary uppercase tracking-widest text-center">Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="n : ${news}"
+                class="border-b border-outline-variant/10 hover:bg-surface-container-low transition-colors">
+                <td class="px-6 py-4">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl overflow-hidden bg-surface-container flex-shrink-0">
+                            <img th:if="${n.imageUrl != null and !#strings.isEmpty(n.imageUrl)}"
+                                 th:src="${n.imageUrl}" th:alt="${n.title}"
+                                 class="w-full h-full object-cover"
+                                 onerror="this.parentElement.innerHTML='<span class=\'material-symbols-outlined text-on-surface-variant p-2\'>newspaper</span>'"/>
+                            <span th:unless="${n.imageUrl != null and !#strings.isEmpty(n.imageUrl)}"
+                                  class="material-symbols-outlined text-on-surface-variant p-2">newspaper</span>
+                        </div>
+                        <div>
+                            <p class="font-bold text-on-surface" th:text="${n.title}"></p>
+                            <p class="text-xs text-on-surface-variant line-clamp-1" th:text="${n.summary}"></p>
+                        </div>
+                    </div>
+                </td>
+                <td class="px-6 py-4 text-sm text-on-surface-variant" th:text="${n.author}"></td>
+                <td class="px-6 py-4">
+                        <span th:if="${n.state.name() == 'NEWS_STATUS_PUBLISHED'}"
+                              class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold">Publicado</span>
+                    <span th:if="${n.state.name() == 'NEWS_STATUS_DRAFT'}"
+                          class="bg-surface-container-highest text-on-surface-variant px-3 py-1 rounded-full text-xs font-bold">Borrador</span>
+                </td>
+                <td class="px-6 py-4">
+                    <span class="block text-sm text-on-surface-variant"
+                          th:text="${#temporals.format(n.publicationDate, 'dd/MM/yyyy')}"></span>
+                    <span th:if="${n.updatedAt != null and n.updatedAt != n.publicationDate}"
+                          class="inline-flex items-center gap-1 text-[10px] font-bold text-secondary mt-0.5">
+                        <span class="material-symbols-outlined" style="font-size:11px">update</span>
+                        <span th:text="'Actualizado ' + ${#temporals.format(n.updatedAt, 'dd/MM/yyyy HH:mm')}"></span>
+                    </span>
+                </td>
+                <td class="px-6 py-4">
+                    <div class="flex items-center justify-center gap-3">
+
+                        <a th:href="@{/admin/news/edit/{id}(id=${n.newsId})}"
+                           title="Editar"
+                           class="flex items-center justify-center w-9 h-9 rounded-xl bg-primary/5 text-primary hover:bg-primary hover:text-white transition-all duration-200">
+
+                            <svg th:replace="fragments/icons :: edit"></svg>
+                        </a>
+
+                        <a th:href="@{/admin/news/delete/{id}(id=${n.newsId})}"
+                           title="Eliminar"
+                           class="flex items-center justify-center w-9 h-9 rounded-xl bg-red-50 text-red-500 hover:bg-red-500 hover:text-white transition-all duration-200">
+
+                            <svg th:replace="fragments/icons :: delete"></svg>
+                        </a>
+
+                    </div>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(news)}">
+                <td colspan="5" class="px-6 py-16 text-center text-on-surface-variant">
+                    <span class="material-symbols-outlined text-5xl block mb-3">newspaper</span>
+                    <p>No hay noticias registradas aún.</p>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    </div>
+</main>
+</body>
+</html>

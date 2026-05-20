@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html class="light" lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Contacto - Latinoamérica Comparte</title>
+    <link rel="icon" type="image/x-icon" th:href="@{/images/logo-ecuador.ico}">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script th:src="@{/js/tailwind-config.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body class="bg-background text-on-surface font-body textile-pattern">
+<nav class="fixed top-0 w-full z-50 bg-white/95 shadow-sm">
+    <div class="flex justify-between items-center px-8 h-28 w-full max-w-screen-2xl mx-auto textile-pattern bg-surface">
+        <a th:href="@{/}" class="inline-block">
+            <div class="w-16 h-16">
+                <img th:src="@{/images/logo-ecuador.png}"
+
+                     alt="Logo Ecuador Comparte"
+                     class="w-full h-full object-contain">
+            </div>
+        </a>
+        <div class="hidden md:flex items-center space-x-8">
+            <a th:href="@{/#testimonials}" class="text-on-surface-variant font-medium hover:text-secondary transition-colors">Testimonios</a>
+            <a th:href="@{/#news}" class="text-on-surface-variant font-medium hover:text-secondary transition-colors">Noticias</a>
+            <a th:href="@{/contact}" class="text-primary font-bold border-b-2 border-secondary pb-0.5">Contacto</a>
+        </div>
+    </div>
+</nav>
+
+<main class="pt-32 pb-24 px-8 max-w-screen-xl mx-auto relative z-10">
+    <div class="grid md:grid-cols-2 gap-20 items-start">
+        <div class="space-y-8 relative z-10">
+            <div>
+                <span class="text-xs font-bold text-secondary uppercase tracking-widest">Ponte en contacto</span>
+                <h1 class="text-5xl font-black font-headline text-primary mt-2 tracking-tighter">¿Cómo podemos ayudarte?</h1>
+                <p class="text-on-surface-variant text-lg mt-4 leading-relaxed">Completa el formulario y nuestro equipo se pondrá en contacto contigo a la brevedad posible.</p>
+            </div>
+            <div class="space-y-4">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-surface-container-high rounded-2xl flex items-center justify-center text-primary">
+                        <span class="material-symbols-outlined">mail</span>
+                    </div>
+                    <div>
+                        <p class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Correo</p>
+                        <p class="font-bold text-primary">ecuadorcomparte@gmail.com</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Formulario -->
+        <div class="bg-white/80 backdrop-blur-xl border border-white/50 p-10 rounded-[2.5rem] shadow-2xl textile-pattern overflow-hidden relative">            <!-- Mensaje de éxito -->
+            <div th:if="${param.success}"
+                 class="mb-6 flex items-center gap-3 bg-green-50 border border-green-200 text-green-700 px-5 py-4 rounded-2xl">
+                <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">check_circle</span>
+                <span class="font-bold">¡Mensaje enviado! Nos pondremos en contacto pronto.</span>
+            </div>
+
+            <form th:action="@{/contact}" th:object="${contactRequest}" method="post" class="space-y-5">
+
+                <!-- Nombre -->
+                <div>
+                    <label for="name"
+                           class="text-sm font-bold text-on-surface-variant ml-1 block mb-2">
+                        Nombre *
+                    </label>
+
+                    <input th:field="*{name}"
+                           id="name"
+                           type="text"
+                           placeholder="Tu nombre completo"
+                           th:classappend="${#fields.hasErrors('name')} ? 'ring-2 ring-red-400'"
+                           class="w-full bg-white rounded-2xl p-4 focus:ring-2 focus:ring-primary/20 placeholder:text-slate-300"/>
+
+                    <p th:if="${#fields.hasErrors('name')}"
+                       th:errors="*{name}"
+                       class="text-red-500 text-sm mt-1 ml-1"></p>
+                </div>
+
+                <!-- Email -->
+                <div>
+                    <label for="email"
+                           class="text-sm font-bold text-on-surface-variant ml-1 block mb-2">
+                        Correo Electrónico *
+                    </label>
+
+                    <input th:field="*{email}"
+                           id="email"
+                           type="email"
+                           placeholder="tu@correo.com"
+                           th:classappend="${#fields.hasErrors('email')} ? 'ring-2 ring-red-400'"
+                           class="w-full bg-white rounded-2xl p-4 focus:ring-2 focus:ring-primary/20 placeholder:text-slate-300"/>
+
+                    <p th:if="${#fields.hasErrors('email')}"
+                       th:errors="*{email}"
+                       class="text-red-500 text-sm mt-1 ml-1"></p>
+                </div>
+
+                <!-- Teléfono -->
+                <div>
+                    <label for="phone"
+                           class="text-sm font-bold text-on-surface-variant ml-1 block mb-2">
+                        Teléfono *
+                    </label>
+
+                    <input th:field="*{phone}"
+                           id="phone"
+                           type="tel"
+                           placeholder="+57 300 000 0000"
+                           th:classappend="${#fields.hasErrors('phone')} ? 'ring-2 ring-red-400'"
+                           class="w-full bg-white rounded-2xl p-4 focus:ring-2 focus:ring-primary/20 placeholder:text-slate-300"/>
+
+                    <p th:if="${#fields.hasErrors('phone')}"
+                       th:errors="*{phone}"
+                       class="text-red-500 text-sm mt-1 ml-1"></p>
+                </div>
+
+                <!-- Propósito -->
+                <div>
+                    <label for="purpose"
+                           class="text-sm font-bold text-on-surface-variant ml-1 block mb-2">
+                        Propósito *
+                    </label>
+
+                    <select th:field="*{purpose}"
+                            id="purpose"
+                            th:classappend="${#fields.hasErrors('purpose')} ? 'ring-2 ring-red-400'"
+                            class="w-full bg-white rounded-2xl p-4 focus:ring-2 focus:ring-primary/20 text-slate-500">
+
+                        <option value="">Selecciona un propósito...</option>
+                        <option th:each="p : ${purposes}"
+                                th:value="${p}"
+                                th:text="${p.displayName}"></option>
+                    </select>
+
+                    <p th:if="${#fields.hasErrors('purpose')}"
+                       th:errors="*{purpose}"
+                       class="text-red-500 text-sm mt-1 ml-1"></p>
+                </div>
+
+                <!-- Botón -->
+                <button type="submit"
+                        class="w-full bg-primary text-white py-4 rounded-full font-black text-lg hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 transition-all duration-300">
+                    Enviar Mensaje
+                </button>
+
+            </form>
+
+        </div>
+    </div>
+</main>
+
+<div th:replace="~{fragments/footer-public :: footer-public}"></div>
+<!--  Redirección automática -->
+<script th:if="${param.success}">
+    setTimeout(() => {
+        window.location.href = "/";
+    }, 2000);
+</script>
+</body>
+</html>

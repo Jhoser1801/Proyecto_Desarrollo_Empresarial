@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<aside th:fragment="sidebar(activeMenu)">
+
+    <!-- ============================================================
+         BARRA SUPERIOR MÓVIL
+         - Solo visible en móvil (flex md:hidden)
+         - Contiene botón hamburguesa y título
+         - Fija en la parte superior de la pantalla
+         ============================================================ -->
+    <div class="fixed top-0 left-0 right-0 z-50 flex md:hidden items-center justify-between
+                px-4 h-16 bg-slate-50 border-b border-outline-variant/20 sidebar-texture">
+
+        <!-- Título -->
+        <div>
+            <h1 class="text-sm font-bold text-[#271B83] font-headline leading-tight">Panel de Administración</h1>
+            <p class="text-[10px] text-on-surface-variant font-medium">Latinoamérica Comparte</p>
+        </div>
+
+        <!-- Botón hamburguesa -->
+        <button id="sidebarToggle"
+                onclick="toggleSidebar()"
+                class="w-10 h-10 flex items-center justify-center rounded-xl
+                       text-slate-600 hover:bg-slate-200/60 transition-colors">
+            <span id="hamburgerIcon" class="material-symbols-outlined">menu</span>
+        </button>
+
+    </div>
+
+    <!-- ============================================================
+         OVERLAY OSCURO (solo móvil)
+         - Aparece detrás del sidebar cuando está abierto
+         - Al hacer clic cierra el sidebar
+         ============================================================ -->
+    <div id="sidebarOverlay"
+         onclick="toggleSidebar()"
+         class="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm
+                hidden md:hidden transition-opacity duration-300">
+    </div>
+
+    <!-- ============================================================
+         SIDEBAR PRINCIPAL
+         - En desktop: siempre visible (w-64 fijo)
+         - En móvil: oculto por defecto, se desliza desde la izquierda
+                     al pulsar el botón hamburguesa
+         ============================================================ -->
+    <aside id="sidebarPanel"
+           class="fixed left-0 top-0 flex flex-col h-full py-6
+                  bg-slate-50 sidebar-texture border-r border-outline-variant/20
+                  w-64 z-50
+                  transition-transform duration-300 ease-in-out
+                  -translate-x-full md:translate-x-0">
+
+        <!-- Logo (solo visible en desktop, en móvil está en la barra superior) -->
+        <div class="px-6 mb-8 hidden md:block">
+            <h1 class="text-lg font-bold text-[#271B83] font-headline">Panel de Administración</h1>
+            <p class="text-xs text-on-surface-variant font-medium">Latinoamérica Comparte</p>
+        </div>
+
+        <!-- Espaciador en móvil para compensar la barra superior de 64px -->
+        <div class="h-16 md:hidden flex-shrink-0"></div>
+
+        <!-- Navegación principal -->
+        <nav class="flex-grow space-y-1 px-0">
+
+            <!-- Dashboard -->
+            <a th:href="@{/admin}"
+               th:classappend="${activeMenu == 'dashboard'} ? 'bg-[#271B83] text-white shadow-lg' : 'text-slate-500 hover:bg-slate-200/50 hover:translate-x-1'"
+               class="flex items-center px-6 py-3 rounded-r-full mr-4 transition-all duration-200 font-medium"
+               onclick="closeSidebarOnMobile()">
+                <span class="material-symbols-outlined mr-3">dashboard</span>
+                <span>Panel de Control</span>
+            </a>
+
+            <!-- Testimonios -->
+            <a th:href="@{/admin/testimonials}"
+               th:classappend="${activeMenu == 'testimonios'} ? 'bg-[#271B83] text-white shadow-lg' : 'text-slate-500 hover:bg-slate-200/50 hover:translate-x-1'"
+               class="flex items-center px-6 py-3 rounded-r-full mr-4 transition-all duration-200 font-medium"
+               onclick="closeSidebarOnMobile()">
+                <span class="material-symbols-outlined mr-3">chat</span>
+                <span>Testimonios</span>
+            </a>
+
+            <!-- Noticias -->
+            <a th:href="@{/admin/news}"
+               th:classappend="${activeMenu == 'noticias'} ? 'bg-[#271B83] text-white shadow-lg' : 'text-slate-500 hover:bg-slate-200/50 hover:translate-x-1'"
+               class="flex items-center px-6 py-3 rounded-r-full mr-4 transition-all duration-200 font-medium"
+               onclick="closeSidebarOnMobile()">
+                <span class="material-symbols-outlined mr-3">newspaper</span>
+                <span>Noticias</span>
+            </a>
+
+            <!-- Contactos -->
+            <a th:href="@{/admin/contacts}"
+               th:classappend="${activeMenu == 'contactos'} ? 'bg-[#271B83] text-white shadow-lg' : 'text-slate-500 hover:bg-slate-200/50 hover:translate-x-1'"
+               class="flex items-center px-6 py-3 rounded-r-full mr-4 transition-all duration-200 font-medium"
+               onclick="closeSidebarOnMobile()">
+                <span class="material-symbols-outlined mr-3">contact_mail</span>
+                <span>Contactos</span>
+            </a>
+
+            <!-- Administradores -->
+            <a th:href="@{/admin/users}"
+               th:classappend="${activeMenu == 'usuarios'} ? 'bg-[#271B83] text-white shadow-lg' : 'text-slate-500 hover:bg-slate-200/50 hover:translate-x-1'"
+               class="flex items-center px-6 py-3 rounded-r-full mr-4 transition-all duration-200 font-medium"
+               onclick="closeSidebarOnMobile()">
+                <span class="material-symbols-outlined mr-3">manage_accounts</span>
+                <span>Administradores</span>
+            </a>
+
+        </nav>
+
+        <!-- Footer del sidebar: Ver Sitio y Cerrar Sesión -->
+        <footer class="pt-4 border-t border-outline-variant/20 mt-4">
+
+            <a th:href="@{/}"
+               class="flex items-center px-6 py-3 text-slate-500 hover:bg-slate-200/50
+                      rounded-r-full mr-4 hover:translate-x-1 transition-all duration-200">
+                <span class="material-symbols-outlined mr-3">home</span>
+                <span class="font-medium text-sm">Ver Sitio</span>
+            </a>
+
+            <form th:action="@{/logout}" method="post">
+                <button type="submit"
+                        class="w-full flex items-center px-6 py-3 text-slate-500
+                               hover:bg-red-50 hover:text-red-600
+                               rounded-r-full mr-4 hover:translate-x-1 transition-all duration-200">
+                    <span class="material-symbols-outlined mr-3">logout</span>
+                    <span class="font-medium text-sm">Cerrar Sesión</span>
+                </button>
+            </form>
+
+        </footer>
+
+    </aside>
+
+    <!-- ============================================================
+         SCRIPT: lógica del sidebar móvil
+         - toggleSidebar(): abre/cierra el panel y el overlay
+         - closeSidebarOnMobile(): cierra al navegar (solo en móvil)
+         ============================================================ -->
+    <script>
+        function toggleSidebar() {
+            const panel   = document.getElementById('sidebarPanel');
+            const overlay = document.getElementById('sidebarOverlay');
+            const icon    = document.getElementById('hamburgerIcon');
+
+            const isOpen = !panel.classList.contains('-translate-x-full');
+
+            if (isOpen) {
+                // Cerrar sidebar
+                panel.classList.add('-translate-x-full');
+                overlay.classList.add('hidden');
+                icon.textContent = 'menu';
+            } else {
+                // Abrir sidebar
+                panel.classList.remove('-translate-x-full');
+                overlay.classList.remove('hidden');
+                icon.textContent = 'close';
+            }
+        }
+
+        // Cierra el sidebar solo en móvil al hacer clic en un enlace de navegación
+        function closeSidebarOnMobile() {
+            if (window.innerWidth < 768) {
+                const panel   = document.getElementById('sidebarPanel');
+                const overlay = document.getElementById('sidebarOverlay');
+                const icon    = document.getElementById('hamburgerIcon');
+
+                panel.classList.add('-translate-x-full');
+                overlay.classList.add('hidden');
+                icon.textContent = 'menu';
+            }
+        }
+    </script>
+
+</aside>
+
+</html>

@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html class="light" lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head-admin :: head-admin('Panel de Control')}">
+    <title>Panel de Control</title>
+</head>
+<body class="bg-background text-on-surface relative" data-mode="connect">
+<div th:replace="~{fragments/sidebar :: sidebar('dashboard')}"></div>
+<main class="md:ml-64 min-h-[1024px] p-8 lg:p-12 pt-20 md:pt-8 textile-pattern bg-surface" data-stitch-vh="min-h-[1024px]===min-h-screen">
+    <header class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 mt-2 md:mt-0">
+        <div>
+            <span class="text-xs font-bold tracking-[0.2em] text-secondary uppercase font-label">Resumen Administrativo</span>
+            <h2 class="text-5xl font-black text-primary font-headline mt-2 tracking-tighter">Panel de Control</h2>
+        </div>
+        <div class="flex items-center gap-4">
+            <div class="bg-surface-container-high px-4 py-2 rounded-xl flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-white">
+                    <span class="material-symbols-outlined text-sm" data-icon="calendar_today">calendar_today</span>
+                </div>
+                <div>
+                    <p class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold">Periodo Actual</p>
+                    <p class="text-sm font-bold text-on-surface"
+                       th:text="${#temporals.format(#temporals.createNow(), 'dd MMM yyyy')}">
+                    </p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 mb-12">
+        <div class="relative overflow-hidden bg-surface-container-low p-8 rounded-3xl group transition-all duration-300 hover:translate-y-[-4px]">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-110"></div>
+            <div class="flex flex-col h-full justify-between relative z-10">
+                <div class="w-12 h-12 bg-primary text-white rounded-2xl flex items-center justify-center shadow-lg shadow-primary/20">
+                    <span class="material-symbols-outlined" data-icon="chat" style="font-variation-settings: 'FILL' 1;">chat</span>
+                </div>
+                <div class="mt-auto pt-6">
+                    <h3 class="text-4xl font-black text-on-surface font-headline" th:text="${totalTestimonials}">0</h3>
+                    <p class="text-on-surface-variant font-medium mt-1">Total Testimonios</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="relative overflow-hidden bg-surface-container-high p-8 rounded-3xl group transition-all duration-300 hover:translate-y-[-4px]">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-secondary/5 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-110"></div>
+            <div class="flex flex-col h-full justify-between relative z-10">
+                <div class="w-12 h-12 bg-secondary text-white rounded-2xl flex items-center justify-center shadow-lg shadow-secondary/20">
+                    <span class="material-symbols-outlined" data-icon="newspaper" style="font-variation-settings: 'FILL' 1;">newspaper</span>
+                </div>
+                <div class="mt-auto pt-6">
+                    <h3 class="text-4xl font-black text-on-surface font-headline" th:text="${totalNews}">0</h3>
+                    <p class="text-on-surface-variant font-medium mt-1">Publicaciones de Noticias</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="relative overflow-hidden bg-surface-container-highest p-8 rounded-3xl group transition-all duration-300 hover:translate-y-[-4px]">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-tertiary/5 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-110"></div>
+            <div class="flex flex-col h-full justify-between relative z-10">
+                <div class="w-12 h-12 bg-tertiary text-white rounded-2xl flex items-center justify-center shadow-lg shadow-tertiary/20">
+                    <span class="material-symbols-outlined" data-icon="mail" style="font-variation-settings: 'FILL' 1;">mail</span>
+                </div>
+                <div class="mt-auto pt-6">
+                    <h3 class="text-4xl font-black text-on-surface font-headline" th:text="${totalContacts}">0</h3>
+                    <p class="text-on-surface-variant font-medium mt-1">Solicitudes de Contacto</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="relative overflow-hidden bg-primary p-8 rounded-3xl group transition-all duration-300 hover:translate-y-[-4px]">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-110"></div>
+            <div class="flex flex-col h-full justify-between relative z-10">
+                <div class="flex items-center justify-between">
+                    <div class="w-12 h-12 bg-white/20 text-white rounded-2xl flex items-center justify-center shadow-lg">
+                        <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">manage_accounts</span>
+                    </div>
+                    <a th:href="@{/admin/users}"
+                       class="inline-flex items-center gap-1 text-white/80 hover:text-white text-xs font-bold uppercase tracking-widest transition-colors">
+                        <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                        Gestionar
+                    </a>
+                </div>
+                <div class="mt-auto pt-6">
+                    <h3 class="text-4xl font-black text-white font-headline" th:text="${totalUsers}">0</h3>
+                    <p class="text-white/70 font-medium mt-1">Administradores</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="grid grid-cols-1 lg:grid-cols-12 gap-8 bg-surface-container-lowest textile-pattern p-8 rounded-3xl shadow-[0px_20px_40px_rgba(34,19,58,0.04)]">
+
+        <!-- Últimas Solicitudes de Contacto -->
+        <div class="lg:col-span-8">
+            <div class="flex items-center justify-between mb-10">
+                <h4 class="text-2xl font-bold text-on-surface font-headline tracking-tight">Últimas Solicitudes de Contacto</h4>
+            </div>
+            <div class="overflow-x-auto">
+                <div class="space-y-4 min-w-[480px]" xmlns:th="http://www.thymeleaf.org">
+                <div th:if="${#lists.isEmpty(latestContacts)}"
+                     class="text-center py-10 text-on-surface-variant">
+                    <span class="material-symbols-outlined text-4xl block mb-2 opacity-30">inbox</span>
+                    <p class="text-sm">No hay actividad reciente.</p>
+                </div>
+                <div th:each="c : ${latestContacts}"
+                     class="flex items-center gap-6 p-4 rounded-2xl hover:bg-surface-container-low transition-colors">
+                    <div class="relative h-14 w-14 flex-shrink-0">
+                        <div class="w-full h-full bg-primary-fixed rounded-2xl flex items-center justify-center text-primary font-black text-lg"
+                             th:text="${#strings.substring(c.name,0,1).toUpperCase()}"></div>
+                        <div class="absolute -bottom-1 -right-1 w-6 h-6 bg-primary rounded-lg border-2 border-white flex items-center justify-center">
+                        <span class="material-symbols-outlined text-[12px] text-white"
+                              style="font-variation-settings:'FILL' 1">mail</span>
+                        </div>
+                    </div>
+                    <div class="flex-grow">
+                        <h5 class="text-base font-bold text-on-surface" th:text="${c.name} + ' envió una solicitud'"></h5>
+                        <p class="text-sm text-on-surface-variant line-clamp-1" th:text="${c.email}"></p>
+                    </div>
+                    <div class="text-right flex-shrink-0">
+                    <span class="bg-primary/10 text-primary text-[10px] px-2 py-1 rounded-lg font-bold uppercase"
+                          th:text="${c.purpose.displayName}"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        <!-- Columna derecha -->
+        <div class="lg:col-span-4 flex flex-col gap-6">
+
+            <!-- Tarjeta 1: Estadísticas en Vivo -->
+            <div class="bg-primary textile-pattern text-white p-8 rounded-3xl relative overflow-hidden shadow-xl shadow-primary/20">
+                <div class="absolute bottom-0 right-0 w-48 h-48 bg-white/5 rounded-full -mb-24 -mr-24 blur-3xl pointer-events-none"></div>
+                <div class="relative z-10">
+                    <h4 class="text-xl font-bold font-headline mb-6">Estadísticas en Vivo</h4>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-white/10 rounded-2xl p-4 border border-white/10">
+                            <p class="text-xs uppercase tracking-widest opacity-70 font-bold mb-2">Noticias publicadas</p>
+                            <p class="text-3xl font-black" th:text="${newsPercent + '%'}">0%</p>
+                            <div class="mt-3 h-1.5 w-full bg-white/20 rounded-full overflow-hidden">
+                                <div class="h-full bg-secondary-container rounded-full"
+                                     th:style="'width:' + ${newsPercent} + '%'"></div>
+                            </div>
+                        </div>
+                        <div class="bg-white/10 rounded-2xl p-4 border border-white/10">
+                            <p class="text-xs uppercase tracking-widest opacity-70 font-bold mb-2">Meta mensual</p>
+                            <p class="text-3xl font-black">
+                                <span th:text="${totalContacts}">0</span>
+                                <span class="text-sm opacity-60">/ <span th:text="${contactGoal}">10</span></span>
+                            </p>
+                            <div class="mt-3 h-1.5 w-full bg-white/20 rounded-full overflow-hidden">
+                                <div class="h-full bg-white rounded-full"
+                                     th:style="'width:' + ${goalPercent} + '%'"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tarjeta 2: Insight Inteligente -->
+            <div class="bg-primary textile-pattern text-white p-8 rounded-3xl relative overflow-hidden shadow-xl shadow-primary/20">
+                <div class="absolute bottom-0 right-0 w-48 h-48 bg-white/5 rounded-full -mb-24 -mr-24 blur-3xl pointer-events-none"></div>
+                <div class="relative z-10">
+                    <p class="text-xs uppercase tracking-[0.25em] opacity-70 font-bold mb-6">Insight Inteligente</p>
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-12 h-12 rounded-2xl bg-white/15 flex items-center justify-center flex-shrink-0">
+                            <span class="material-symbols-outlined text-2xl">trending_up</span>
+                        </div>
+                        <div>
+                            <p class="text-sm opacity-70 font-medium">Mes récord</p>
+                            <p class="text-3xl font-black leading-tight" th:text="${bestMonth}">Octubre</p>
+                        </div>
+                    </div>
+                    <div class="bg-white/10 rounded-2xl px-5 py-4 border border-white/10">
+                        <p class="text-sm opacity-90 leading-relaxed">
+                            <span class="font-black text-2xl block mb-1" th:text="${bestCount}">4</span>
+                            solicitudes registradas en el mejor mes.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+
+    <section class="mt-10">
+        <div class="bg-surface-container-lowest p-8 rounded-3xl shadow-[0px_20px_40px_rgba(34,19,58,0.04)]">
+            <h3 class="text-2xl font-bold mb-8 text-on-surface font-headline tracking-tight">
+                Estadísticas Generales
+            </h3>
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <div class="lg:col-span-8">
+                    <div class="h-[380px]">
+                        <canvas id="statsChart"></canvas>
+                    </div>
+                </div>
+                <div class="lg:col-span-4">
+                    <div class="bg-primary text-white p-6 rounded-3xl shadow-xl shadow-primary/20 relative overflow-hidden">
+                        <div class="absolute bottom-0 right-0 w-48 h-48 bg-white/5 rounded-full -mb-24 -mr-24 blur-3xl pointer-events-none"></div>
+                        <div class="relative z-10">
+                            <p class="text-xs uppercase tracking-[0.25em] opacity-70 font-bold mb-6">Resumen Analítico</p>
+                            <div class="space-y-6">
+                                <div>
+                                    <p class="text-sm opacity-80">Mes récord</p>
+                                    <h4 class="text-3xl font-black" data-dyn="bestMonth" th:text="${bestMonth}">Abril</h4>
+                                </div>
+                                <div>
+                                    <p class="text-sm opacity-80">Solicitudes máximas</p>
+                                    <h4 class="text-2xl font-bold" data-dyn="bestCount" th:text="${bestCount}">4</h4>
+                                </div>
+                                <div>
+                                    <p class="text-sm opacity-80">Total contactos</p>
+                                    <h4 class="text-2xl font-bold" data-dyn="totalContacts" th:text="${totalContacts}">4</h4>
+                                </div>
+                                <div>
+                                    <p class="text-sm opacity-80">Sistema activo</p>
+                                    <h4 class="text-xl font-bold">Operando normal</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Datos de Thymeleaf expuestos para el script externo -->
+<script th:inline="javascript">
+    window.__dashboardData = {
+        monthlyContacts: /*[[${monthlyContacts}]]*/ [],
+        contactGoal:     /*[[${contactGoal}]]*/ 10,
+        totalContacts:   /*[[${totalContacts}]]*/ 0,
+        bestMonth:       /*[[${bestMonth}]]*/ 'Sin datos',
+        bestCount:       /*[[${bestCount}]]*/ 0
+    };
+</script>
+
+<script th:src="@{/js/vendor/chart.umd.min.js}"></script>
+<script th:src="@{/js/dashboard.js}"></script>
+</body>
+
+</html>

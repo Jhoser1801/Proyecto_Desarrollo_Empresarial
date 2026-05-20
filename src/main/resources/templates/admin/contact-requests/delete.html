@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html class="light" lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head-admin :: head-admin('Eliminar Contacto')}">
+    <title>Eliminar Contacto</title>
+</head>
+<body class="bg-background text-on-surface">
+
+<div th:replace="~{fragments/sidebar :: sidebar('contactos')}"></div>
+
+<main class="md:ml-64 pt-16 md:pt-0 min-h-[1024px] p-8 lg:p-12 flex flex-col textile-pattern bg-surface">
+    <header class="flex items-center gap-4 mb-10">
+        <a th:href="@{/admin/contacts}" class="flex items-center justify-center w-10 h-10 rounded-xl bg-surface-container text-on-surface-variant hover:bg-surface-container-low transition-colors">
+            <span class="material-symbols-outlined">arrow_back</span>
+        </a>
+        <div>
+            <span class="text-xs font-bold tracking-widest text-secondary uppercase font-label">Mensajes Recibidos</span>
+            <h2 class="text-4xl font-black text-primary font-headline mt-1 tracking-tighter">Eliminar Contacto</h2>
+        </div>
+    </header>
+
+    <div class="flex-1 flex justify-center">
+        <div class="w-full max-w-xl">
+            <div class="bg-surface-container-lowest rounded-3xl p-8 shadow-sm">
+                <div class="flex items-center justify-center w-16 h-16 bg-red-50 rounded-2xl mb-6">
+                    <span class="material-symbols-outlined text-3xl text-red-500" style="font-variation-settings:'FILL' 1">warning</span>
+                </div>
+
+                <h3 class="text-xl font-bold text-on-surface font-headline mb-2">¿Estás seguro?</h3>
+                <p class="text-on-surface-variant mb-6">
+                    Estás a punto de eliminar esta solicitud de contacto. Esta acción <span class="font-bold text-red-500">no se puede deshacer</span>.
+                </p>
+
+                <div class="bg-surface-container-low rounded-2xl p-4 mb-8 space-y-2">
+                    <div class="flex gap-3">
+                        <span class="text-xs font-bold uppercase tracking-wider text-on-surface-variant w-20">Nombre:</span>
+                        <span class="text-sm font-medium text-on-surface" th:text="${contact.name}"></span>
+                    </div>
+                    <div class="flex gap-3">
+                        <span class="text-xs font-bold uppercase tracking-wider text-on-surface-variant w-20">Email:</span>
+                        <span class="text-sm text-on-surface-variant" th:text="${contact.email}"></span>
+                    </div>
+                    <div class="flex gap-3">
+                        <span class="text-xs font-bold uppercase tracking-wider text-on-surface-variant w-20">Propósito:</span>
+                        <span class="text-sm text-on-surface-variant" th:text="${contact.purpose.displayName}"></span>
+                    </div>
+                </div>
+
+                <form th:action="@{/admin/contacts/{id}(id=${contact.contactId})}" method="post" class="flex items-center gap-4">
+                    <input type="hidden" name="_method" value="DELETE"/>
+                    <button type="submit"
+                            class="flex items-center gap-2 bg-red-500 text-white px-8 py-3 rounded-full font-bold shadow-md hover:bg-red-600 transition-all duration-200">
+
+                        <svg th:replace="fragments/icons :: delete" class="w-4 h-4 shrink-0"></svg>
+                        <span>Sí, eliminar</span>
+
+                    </button>
+                    <a th:href="@{/admin/contacts}"
+                       class="text-on-surface-variant px-6 py-3 rounded-full font-medium hover:bg-surface-container transition-colors">
+                        Cancelar
+                    </a>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

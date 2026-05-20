@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html class="light" lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head-admin :: head-admin('Detalle de Contacto')}">
+    <title>Detalle de Contacto</title>
+</head>
+<body class="bg-background text-on-surface">
+
+<div th:replace="~{fragments/sidebar :: sidebar('contactos')}"></div>
+
+<main class="md:ml-64 pt-16 md:pt-0 min-h-[1024px] p-8 lg:p-12 flex flex-col textile-pattern bg-surface">
+    <header class="flex items-center gap-4 mb-10">
+        <a th:href="@{/admin/contacts}" class="flex items-center justify-center w-10 h-10 rounded-xl bg-surface-container text-on-surface-variant hover:bg-surface-container-low transition-colors">
+            <span class="material-symbols-outlined">arrow_back</span>
+        </a>
+        <div>
+            <span class="text-xs font-bold tracking-widest text-secondary uppercase font-label">Mensajes Recibidos</span>
+            <h2 class="text-4xl font-black text-primary font-headline mt-1 tracking-tighter">Detalle de Contacto</h2>
+        </div>
+    </header>
+
+    <div class="flex-1 flex justify-center">
+        <div class="w-full max-w-xl">
+            <div class="bg-surface-container-lowest rounded-3xl overflow-hidden shadow-sm">
+                <!-- Header con color -->
+                <div class="relative h-36 bg-primary p-8 flex flex-col justify-end">
+                    <div class="absolute top-0 right-0 w-48 h-48 bg-secondary opacity-20 blur-3xl" style="margin-right:-3rem; margin-top:-3rem"></div>
+                    <div class="relative z-10 flex items-end justify-between">
+                        <div>
+                            <h3 class="text-white text-2xl font-black font-headline leading-tight" th:text="${contact.name}"></h3>
+                            <span class="bg-secondary text-white text-xs px-2 py-0.5 rounded-full font-bold uppercase tracking-widest mt-2 inline-block"
+                                  th:text="${contact.purpose.displayName}"></span>
+                        </div>
+                        <a th:href="@{/admin/contacts/delete/{id}(id=${contact.contactId})}"
+                           class="bg-white/10 backdrop-blur-md p-2 rounded-full text-white hover:bg-red-500/80 transition-colors"
+                           title="Eliminar">
+
+                            <svg th:replace="fragments/icons :: delete" class="w-4 h-4 shrink-0"></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Cuerpo -->
+                <div class="p-8 space-y-4">
+                    <div class="bg-surface-container-low p-4 rounded-2xl">
+                        <span class="block text-xs font-bold text-on-surface-variant/60 uppercase tracking-widest mb-1">Correo Electrónico</span>
+                        <a th:href="'mailto:' + ${contact.email}" class="text-sm font-bold text-primary hover:underline" th:text="${contact.email}"></a>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-surface-container-low p-4 rounded-2xl">
+                            <span class="block text-xs font-bold text-on-surface-variant/60 uppercase tracking-widest mb-1">Teléfono</span>
+                            <span class="text-sm font-bold text-on-surface" th:text="${contact.phone}"></span>
+                        </div>
+                        <div class="bg-surface-container-low p-4 rounded-2xl">
+                            <span class="block text-xs font-bold text-on-surface-variant/60 uppercase tracking-widest mb-1">Finalidad</span>
+                            <span class="text-sm font-bold text-primary" th:text="${contact.purpose.displayName}"></span>
+                        </div>
+                    </div>
+                    <div class="bg-surface-container-low p-4 rounded-2xl">
+                        <span class="block text-xs font-bold text-on-surface-variant/60 uppercase tracking-widest mb-1">Fecha de Recepción</span>
+                        <span class="text-sm font-bold text-on-surface"
+                              th:text="${#temporals.format(contact.createdAt, 'dd MMM yyyy - hh:mm a')}"></span>
+                    </div>
+
+                    <!-- Botón eliminar destacado -->
+                    <div class="pt-4 border-t border-outline-variant flex items-center gap-3">
+                        <a th:href="@{/admin/contacts/delete/{id}(id=${contact.contactId})}"
+                           class="inline-flex items-center gap-2 bg-red-500 text-white text-sm font-bold px-6 py-3 rounded-full hover:bg-red-600 transition-colors shadow-md">
+
+                            <svg th:replace="fragments/icons :: delete" class="w-5 h-5 shrink-0"></svg>
+                            Eliminar solicitud
+                        </a>
+                        <a th:href="@{/admin/contacts}"
+                           class="text-on-surface-variant text-sm font-medium px-4 py-3 rounded-full hover:bg-surface-container transition-colors">
+                            Volver al listado
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>
