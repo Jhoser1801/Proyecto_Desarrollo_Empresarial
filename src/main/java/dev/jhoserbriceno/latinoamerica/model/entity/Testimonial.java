@@ -74,30 +74,67 @@ public class Testimonial {
         setFacebookUrl(testimonialDTO.facebookUrl());
     }
 
+
+    // ─────────────────────────────────────────────────────────────
+    // @Transient: le dice a Hibernate que este método NO corresponde
+    // a ninguna columna de la base de datos. Es un campo/método
+    // calculado que solo existe en memoria Java, nunca se persiste.
+    //
+    // ¿Qué hace? Recibe el video_url del testimonio (que es una URL
+    // completa de YouTube) y extrae solo el ID del video para
+    // construir la URL de la miniatura (thumbnail) de YouTube.
+    //
+    // Ejemplo:
+    //   videoUrl = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+    //   resultado = "https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg"
+    //
+    // Thymeleaf llama a este método desde la vista con:
+    //   th:src="${testimonial.youtubeThumbnailUrl}"
+    // ─────────────────────────────────────────────────────────────
     @Transient
     public String getYoutubeThumbnailUrl() {
+
+        // Si no hay URL de video, no hay thumbnail que calcular
         if (videoUrl == null || videoUrl.isBlank()) return null;
+
+        // Lista de todos los formatos de URL que acepta YouTube
         String[] prefixes = {
-                "https://www.youtube.com/watch?v=",
-                "https://youtube.com/watch?v=",
-                "https://youtu.be/",
-                "https://www.youtu.be/",
-                "https://youtube.com/shorts/",
-                "https://www.youtube.com/shorts/",
-                "https://youtube.com/embed/",
-                "https://www.youtube.com/embed/"
+                "https://www.youtube.com/watch?v=",  // formato estándar de escritorio
+                "https://youtube.com/watch?v=",       // sin www
+                "https://youtu.be/",                  // formato corto (links compartidos)
+                "https://www.youtu.be/",              // formato corto con www
+                "https://youtube.com/shorts/",        // videos cortos (Shorts)
+                "https://www.youtube.com/shorts/",    // Shorts con www
+                "https://youtube.com/embed/",         // formato embed (iframes)
+                "https://www.youtube.com/embed/"      // embed con www
         };
-        String id = videoUrl;
+
+        String id = videoUrl; // empezamos con la URL completa
+
+        // Recorremos cada prefijo conocido para encontrar cuál aplica
         for (String prefix : prefixes) {
             if (id.contains(prefix)) {
+                // Cortamos todo lo que está antes del prefijo (incluido el prefijo)
+                // Lo que queda es el ID del video (más posibles parámetros extra)
                 id = id.substring(id.indexOf(prefix) + prefix.length());
-                break;
+                break; // ya encontramos el formato, salimos del loop
             }
         }
-        // Cortar parámetros extra como ?si=... o &t=30s
+
+        // Eliminamos parámetros extra que puedan venir después del ID:
+        // Ejemplo: dQw4w9WgXcQ?si=abc123  →  dQw4w9WgXcQ
         if (id.contains("?")) id = id.substring(0, id.indexOf("?"));
+
+        // Ejemplo: dQw4w9WgXcQ&t=30s  →  dQw4w9WgXcQ
         if (id.contains("&")) id = id.substring(0, id.indexOf("&"));
+
+        // Ejemplo: dQw4w9WgXcQ/algo  →  dQw4w9WgXcQ
         if (id.contains("/")) id = id.substring(0, id.indexOf("/"));
+
+        // Construimos y retornamos la URL pública del thumbnail de YouTube
+        // hqdefault.jpg = calidad alta (480x360 px)
         return "https://img.youtube.com/vi/" + id + "/hqdefault.jpg";
     }
+
+
 }
