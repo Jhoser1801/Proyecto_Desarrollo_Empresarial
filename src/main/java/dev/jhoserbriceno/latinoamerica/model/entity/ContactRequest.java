@@ -10,27 +10,23 @@ import java.time.LocalDateTime;
 @Table(name = "contact_request")
 public class ContactRequest {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "contact_id")
     private Long contactId;
 
     @Column(nullable = false, length = 100)
-    @NotBlank(message = "El nombre es obligatorio")
     private String name;
 
     @Column(nullable = false, length = 100)
-    @NotBlank(message = "El correo es obligatorio")
-    @Email(message = "Correo inválido")
     private String email;
 
     @Column(nullable = false, length = 20)
-    @NotBlank(message = "El teléfono es obligatorio")
     private String phone;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 30)
-    @NotNull(message = "Debe seleccionar un propósito")
     private Purpose purpose;
 
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -40,47 +36,22 @@ public class ContactRequest {
     @PrePersist
     public void prePersist() { this.createdAt = LocalDateTime.now(); }
 
-    public ContactRequest() {
-    }
+    public ContactRequest() {}
 
-    public Long getContactId() {
-        return contactId;
-    }
+    public Long getContactId() { return contactId; }
 
-    public String getName() {
-        return name;
-    }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
 
-    public String getEmail() {
-        return email;
-    }
+    public String getPhone() { return phone; }
+    public void setPhone(String phone) { this.phone = phone; }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    public Purpose getPurpose() { return purpose; }
+    public void setPurpose(Purpose purpose) { this.purpose = purpose; }
 
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public Purpose getPurpose() {
-        return purpose;
-    }
-
-    public void setPurpose(Purpose purpose) {
-        this.purpose = purpose;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-    //Elimine el setter de createdAt (no debe modificarse manualmente)
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    // Eliminé el setter de createdAt (no debe modificarse manualmente)
 }

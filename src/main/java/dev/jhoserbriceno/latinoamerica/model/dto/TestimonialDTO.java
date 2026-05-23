@@ -41,11 +41,5 @@ public record TestimonialDTO(
         t.setFacebookUrl(this.facebookUrl);
         return t;
     }
-   /* // Actualizamos la entidad existente con todos los datos guardados temporales del DTO
-    public void applyTo(Testimonial t) {
-        t.setName(this.name);
-        t.setVideoUrl(this.videoUrl);
-        t.setInstagramUrl(this.instagramUrl);
-        t.setFacebookUrl(this.facebookUrl);
-    }*/
+
 }

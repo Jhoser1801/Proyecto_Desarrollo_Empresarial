@@ -9,18 +9,15 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "testimonial")
 public class Testimonial {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "testimonial_id")
     private Long testimonialId;
 
     @Column(nullable = false, length = 100)
-    @NotBlank(message = "El nombre es obligatorio")
     private String name;
 
     @Column(name = "video_url", nullable = false, length = 300)
-    @NotBlank(message = "La URL del video es obligatoria")
     private String videoUrl;
 
     @Column(name = "instagram_url", length = 300)
@@ -35,7 +32,7 @@ public class Testimonial {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    //Asignamos el createAt y el updateAt al momento de primera inserción
+    // Asignamos el createdAt y el updatedAt al momento de primera inserción
     @PrePersist
     public void prePersist() {
         LocalDateTime now = LocalDateTime.now();
@@ -44,11 +41,13 @@ public class Testimonial {
         }
         this.updatedAt = now;
     }
+
     // Se actualiza automáticamente una vez modificada la entidad
     @PreUpdate
     public void preUpdate() {
         this.updatedAt = LocalDateTime.now();
     }
+
     public Testimonial() {}
 
     public Long getTestimonialId() { return testimonialId; }
@@ -79,14 +78,14 @@ public class Testimonial {
     public String getYoutubeThumbnailUrl() {
         if (videoUrl == null || videoUrl.isBlank()) return null;
         String[] prefixes = {
-            "https://www.youtube.com/watch?v=",
-            "https://youtube.com/watch?v=",
-            "https://youtu.be/",
-            "https://www.youtu.be/",
-            "https://youtube.com/shorts/",
-            "https://www.youtube.com/shorts/",
-            "https://youtube.com/embed/",
-            "https://www.youtube.com/embed/"
+                "https://www.youtube.com/watch?v=",
+                "https://youtube.com/watch?v=",
+                "https://youtu.be/",
+                "https://www.youtu.be/",
+                "https://youtube.com/shorts/",
+                "https://www.youtube.com/shorts/",
+                "https://youtube.com/embed/",
+                "https://www.youtube.com/embed/"
         };
         String id = videoUrl;
         for (String prefix : prefixes) {

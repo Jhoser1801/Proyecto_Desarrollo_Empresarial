@@ -48,13 +48,5 @@ public record NewsDTO (
         n.setState(this.status);
         return n;
     }
-  /*  // función para aplicar los cambios para una entidad existente que es la news
-    public void applyTo(News n) {
-        n.setTitle(this.title);
-        n.setSummary(this.summary);
-        n.setContent(this.content);
-        n.setImageUrl(this.imageUrl);
-        n.setAuthor(this.author);
-        n.setState(this.status);
-    }*/
+
 }
