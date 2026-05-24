@@ -81,8 +81,11 @@
                            th:classappend="${#fields.hasErrors('password')} ? 'border-red-400 focus:ring-red-300 focus:border-red-400' : ''"
                            class="w-full px-4 py-3 rounded-xl border border-outline-variant/40 bg-surface-container-low focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all pr-12"/>
 
+                    <!-- PRUEBA: se pasa 'passwordInput' y 'toggleIcon' explícitamente
+                         para que togglePassword() encuentre el input correcto.
+                         Antes llamaba togglePassword() sin args y buscaba id="password" (no existía). -->
                     <button type="button"
-                            onclick="togglePassword()"
+                            onclick="togglePassword('passwordInput', 'toggleIcon')"
                             class="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-primary transition-colors">
                         <span class="material-symbols-outlined" id="toggleIcon">visibility</span>
                     </button>
