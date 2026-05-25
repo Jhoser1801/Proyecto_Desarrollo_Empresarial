@@ -75,7 +75,7 @@ public class NewsController {
                 n.getAuthor(),
                 n.getState()
         ));
-        model.addAttribute("statuses", NewsStatus.values());
+        model.addAttribute("states", NewsStatus.values());
 
         return "admin/news/update";
     }
@@ -88,7 +88,7 @@ public class NewsController {
                          Model model,
                          RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
-            model.addAttribute("statuses", NewsStatus.values());
+            model.addAttribute("states", NewsStatus.values());
             try {
                 model.addAttribute("news", service.findByIdOrThrow(id));
             } catch (EntityNotFoundException e) {
