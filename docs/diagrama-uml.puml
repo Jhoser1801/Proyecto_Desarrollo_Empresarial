@@ -1,0 +1,361 @@
+@startuml LatinoamericaComparte
+
+skinparam classAttributeIconSize 0
+skinparam classFontSize 13
+skinparam classAttributeFontSize 11
+skinparam classBorderColor #555
+skinparam classBackgroundColor #FAFAFA
+skinparam classBorderThickness 1
+skinparam ArrowColor #555
+skinparam ArrowThickness 1
+skinparam shadowing false
+skinparam linetype ortho
+
+skinparam class {
+    HeaderBackgroundColor<<Controller>> #C5B0F5
+    HeaderBackgroundColor<<Service>> #5DCAA5
+    HeaderBackgroundColor<<Repository>> #378ADD
+    HeaderBackgroundColor<<Entity>> #EF9F27
+    HeaderBackgroundColor<<Config>> #F0997B
+    HeaderBackgroundColor<<Enum>> #B4B2A9
+    FontColor<<Controller>> #26215C
+    FontColor<<Service>> #04342C
+    FontColor<<Repository>> #042C53
+    FontColor<<Entity>> #412402
+    FontColor<<Config>> #4A1B0C
+    FontColor<<Enum>> #2C2C2A
+}
+
+' ─── CONTROLLERS ───────────────────────────────────────────
+
+class HomeController <<Controller>> {
+    - testimonialService: TestimonialService
+    - newsService: NewsService
+    - contactRequestService: ContactRequestService
+    --
+    + home(model): String
+    + contactPage(model): String
+    + submitContact(dto, result, model): String
+    + newsDetail(id, model): String
+}
+
+class AuthController <<Controller>> {
+    + login(): String
+}
+
+class AdminDashboardController <<Controller>> {
+    - contactRequestService: ContactRequestService
+    - testimonialService: TestimonialService
+    - newsService: NewsService
+    - userAdminService: UserAdminService
+    --
+    + dashboard(model): String
+}
+
+class NewsController <<Controller>> {
+    - service: NewsService
+    --
+    + list(model): String
+    + createForm(model): String
+    + create(dto, result, model, ra): String
+    + editForm(id, model): String
+    + update(id, dto, result, model, ra): String
+    + confirmDelete(id, model): String
+    + delete(id, model, ra): String
+}
+
+class TestimonialController <<Controller>> {
+    - service: TestimonialService
+    --
+    + list(model): String
+    + createForm(model): String
+    + create(dto, result, ra): String
+    + editForm(id, model): String
+    + update(id, dto, result, model, ra): String
+    + confirmDelete(id, model): String
+    + delete(id, model, ra): String
+}
+
+class ContactRequestController <<Controller>> {
+    - service: ContactRequestService
+    --
+    + list(purpose, model): String
+    + detail(id, model): String
+    + confirmDelete(id, model): String
+    + delete(id, model, ra): String
+}
+
+class UserAdminController <<Controller>> {
+    - userAdminService: UserAdminService
+    --
+    + list(model): String
+    + createForm(model): String
+    + create(dto, result, model, ra): String
+    + editForm(id, model): String
+    + update(id, dto, result, model, ra): String
+    + confirmDelete(id, model): String
+    + delete(id, model, ra): String
+}
+
+class SecurityConfig <<Config>> {
+    + securityFilterChain(http): SecurityFilterChain
+    + passwordEncoder(): PasswordEncoder
+}
+
+' ─── SERVICES ──────────────────────────────────────────────
+
+interface UserDetailsService <<interface>> {
+    + loadUserByUsername(username): UserDetails
+}
+
+class UserService <<Service>> {
+    - repository: AdminRepository
+    --
+    + loadUserByUsername(email): UserDetails
+}
+
+class UserAdminService <<Service>> {
+    - adminRepository: AdminRepository
+    - passwordEncoder: PasswordEncoder
+    --
+    + findAll(): List<Admin>
+    + findById(id): Optional<Admin>
+    + create(dto: CreateUserDTO): Admin
+    + update(id, dto: UpdateUserDTO): Admin
+    + delete(id): void
+}
+
+class NewsService <<Service>> {
+    - repo: NewsRepository
+    --
+    + findAll(): List<News>
+    + findPublished(): List<News>
+    + findByIdOrThrow(id): News
+    + create(dto: NewsDTO): void
+    + update(id, dto: NewsDTO): void
+    + delete(id): void
+}
+
+class TestimonialService <<Service>> {
+    - repo: TestimonialRepository
+    --
+    + findAll(): List<Testimonial>
+    + findById(id): Optional<Testimonial>
+    + create(dto: TestimonialDTO): void
+    + update(id, dto: TestimonialDTO): void
+    + delete(id): void
+}
+
+class ContactRequestService <<Service>> {
+    - repository: ContactRequestRepository
+    + {static} CONTACT_GOAL: int = 10
+    --
+    + findAll(): List<ContactRequest>
+    + findByPurpose(p): List<ContactRequest>
+    + findById(id): Optional<ContactRequest>
+    + create(dto: ContactRequestDTO): void
+    + delete(id): void
+    + countContactsByMonth(): List<Object[]>
+    + calcGoalPercent(total): int
+    + findBestMonth(data): String
+    + findBestCount(data): long
+}
+
+' ─── REPOSITORIES ──────────────────────────────────────────
+
+interface AdminRepository <<Repository>> {
+    + findByEmail(email): Optional<Admin>
+}
+
+interface NewsRepository <<Repository>> {
+    + findByStateOrderByPublicationDateDesc(s): List<News>
+    + findAllByOrderByPublicationDateDesc(): List<News>
+}
+
+interface TestimonialRepository <<Repository>> {
+    + findAllByOrderByCreatedAtDesc(): List<Testimonial>
+}
+
+interface ContactRequestRepository <<Repository>> {
+    + findByPurpose(p): List<ContactRequest>
+    + findAllByOrderByCreatedAtDesc(): List<ContactRequest>
+    + countContactsByMonth(): List<Object[]>
+}
+
+' ─── ENTITIES ──────────────────────────────────────────────
+
+class Admin <<Entity>> {
+    - adminId: Long <<PK>>
+    - name: String
+    - email: String <<UNIQUE>>
+    - password: String
+    --
+    + getUsername(): String
+    + getPassword(): String
+    + getAuthorities(): Collection
+}
+
+class News <<Entity>> {
+    - newsId: Long <<PK>>
+    - title: String
+    - summary: String
+    - content: String
+    - imageUrl: String
+    - author: String
+    - state: NewsStatus
+    - publicationDate: Timestamp
+    - updatedAt: Timestamp
+    --
+    + replaceFieldsWith(dto): void
+}
+
+class Testimonial <<Entity>> {
+    - testimonialId: Long <<PK>>
+    - name: String
+    - videoUrl: String
+    - instagramUrl: String
+    - facebookUrl: String
+    - createdAt: Timestamp
+    - updatedAt: Timestamp
+    --
+    + getYoutubeThumbnailUrl(): String
+    + replaceFieldsWith(dto): void
+}
+
+class ContactRequest <<Entity>> {
+    - contactId: Long <<PK>>
+    - name: String
+    - email: String
+    - phone: String
+    - purpose: Purpose
+    - createdAt: Timestamp
+}
+
+' ─── ENUMS ─────────────────────────────────────────────────
+
+enum NewsStatus <<Enum>> {
+    NEWS_STATUS_DRAFT
+    NEWS_STATUS_PUBLISHED
+    --
+    + getVisualName(): String
+}
+
+enum Purpose <<Enum>> {
+    PURPOSE_SERVICE
+    PURPOSE_EDIFICA_PROGRAM
+    PURPOSE_SHOWS_AND_CONFERENCES
+    --
+    + getDisplayName(): String
+}
+
+' ─── DTOs ──────────────────────────────────────────────────
+
+class ContactRequestDTO <<record>> {
+    name: String
+    email: String
+    phone: String
+    purpose: Purpose
+    --
+    + toEntity(): ContactRequest
+}
+
+class NewsDTO <<record>> {
+    title: String
+    summary: String
+    content: String
+    imageUrl: String
+    author: String
+    status: NewsStatus
+    --
+    + toEntity(): News
+}
+
+class TestimonialDTO <<record>> {
+    name: String
+    videoUrl: String
+    instagramUrl: String
+    facebookUrl: String
+    --
+    + toEntity(): Testimonial
+}
+
+class CreateUserDTO <<record>> {
+    name: String
+    email: String
+    password: String
+}
+
+class UpdateUserDTO <<record>> {
+    name: String
+    email: String
+    password: String
+}
+
+' ─── RELATIONS ─────────────────────────────────────────────
+
+' Controllers -> Services
+HomeController ..> TestimonialService : usa
+HomeController ..> NewsService : usa
+HomeController ..> ContactRequestService : usa
+AdminDashboardController ..> ContactRequestService : usa
+AdminDashboardController ..> TestimonialService : usa
+AdminDashboardController ..> NewsService : usa
+AdminDashboardController ..> UserAdminService : usa
+NewsController ..> NewsService : usa
+TestimonialController ..> TestimonialService : usa
+ContactRequestController ..> ContactRequestService : usa
+UserAdminController ..> UserAdminService : usa
+
+' AuthController -> SecurityConfig (Spring Security gestiona el login)
+AuthController ..> SecurityConfig : protegido por
+
+' Services -> UserDetailsService
+UserService ..|> UserDetailsService : implements
+
+' Services -> Repositories
+UserService ..> AdminRepository : usa
+UserAdminService ..> AdminRepository : usa
+NewsService ..> NewsRepository : usa
+TestimonialService ..> TestimonialRepository : usa
+ContactRequestService ..> ContactRequestRepository : usa
+
+' Repositories -> Entities
+AdminRepository ..> Admin : gestiona
+NewsRepository ..> News : gestiona
+TestimonialRepository ..> Testimonial : gestiona
+ContactRequestRepository ..> ContactRequest : gestiona
+
+' Entities -> Enums
+News --> NewsStatus : state
+ContactRequest --> Purpose : purpose
+
+' Entities implement UserDetails
+Admin ..|> "UserDetails" : implements
+
+' SecurityConfig
+SecurityConfig ..> UserService : configura
+
+' Controllers -> DTOs (reciben como parámetro)
+HomeController ..> ContactRequestDTO : recibe
+NewsController ..> NewsDTO : recibe
+TestimonialController ..> TestimonialDTO : recibe
+UserAdminController ..> CreateUserDTO : recibe
+UserAdminController ..> UpdateUserDTO : recibe
+
+' Services -> DTOs
+ContactRequestService ..> ContactRequestDTO : usa
+NewsService ..> NewsDTO : usa
+TestimonialService ..> TestimonialDTO : usa
+UserAdminService ..> CreateUserDTO : usa
+UserAdminService ..> UpdateUserDTO : usa
+
+' DTOs -> Entities (toEntity())
+ContactRequestDTO ..> ContactRequest : toEntity()
+NewsDTO ..> News : toEntity()
+TestimonialDTO ..> Testimonial : toEntity()
+
+' DTOs -> Enums
+ContactRequestDTO ..> Purpose : usa
+NewsDTO ..> NewsStatus : usa
+
+@enduml
