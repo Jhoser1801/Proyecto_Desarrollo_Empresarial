@@ -101,7 +101,6 @@ public class UserAdminController {
         }
     }
 
-    // Se reemplaza ifPresentOrElse() + flag "notFound" por el patrón estándar del proyecto.
     @GetMapping("/delete/{id}")
     public String confirmDelete(@PathVariable Long id, Model model) {
         Optional<Admin> result = userAdminService.findById(id);
