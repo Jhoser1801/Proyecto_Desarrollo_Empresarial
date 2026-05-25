@@ -26,13 +26,6 @@
             </div>
         </header>
 
-        <!-- Usuario no encontrado -->
-        <div th:if="${notFound}"
-             class="bg-red-50 border border-red-200 text-red-700 px-6 py-5 rounded-2xl">
-            <p class="font-bold">Administrador no encontrado.</p>
-            <a th:href="@{/admin/users}" class="text-sm underline mt-2 block">Volver a la lista</a>
-        </div>
-
         <!-- Confirmación -->
         <div th:if="${user}">
             <div class="bg-surface-container-lowest rounded-3xl p-8 shadow-sm">
@@ -63,8 +56,8 @@
 
                 <!-- Botones -->
                 <div class="flex items-center gap-4">
-                    <form th:action="@{/admin/users/{id}(id=${user.adminId})}" method="post">
-                        <input type="hidden" name="_method" value="delete">
+                    <!-- Antes: method="post" + input hidden _method=DELETE -->
+                    <form th:action="@{/admin/users/{id}(id=${user.adminId})}" th:method="delete">
                         <button type="submit"
                                 class="flex items-center gap-2 bg-red-500 text-white px-8 py-3 rounded-full font-bold shadow-md hover:bg-red-600 transition-all duration-200">
 

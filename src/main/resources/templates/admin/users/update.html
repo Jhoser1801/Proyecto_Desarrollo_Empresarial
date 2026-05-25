@@ -31,10 +31,8 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
             <!-- Formulario -->
-            <form th:action="@{/admin/users/{id}(id=${user.adminId})}"
-                  th:object="${userRequest}" method="post"
+            <form th:action="@{/admin/users/{id}(id=${user.adminId})}" th:object="${userRequest}" th:method="put"
                   class="bg-surface-container-lowest rounded-3xl p-8 shadow-sm space-y-6">
-                <input type="hidden" name="_method" value="PUT"/>
 
                 <!-- Nombre -->
                 <div>

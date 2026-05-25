@@ -128,7 +128,6 @@ docker run -p 8081:8081 \
 
 ## 📁 Estructura de Carpetas
 
-```
 Proyecto_Desarrollo_Empresarial/
 ├── src/
 │   ├── main/
@@ -223,7 +222,7 @@ Proyecto_Desarrollo_Empresarial/
 ├── settings.gradle       ← Nombre del proyecto: LatinoamericaComparte
 ├── README.md             ← Documentación del proyecto
 └── Dockerfile            ← Multi-stage: gradle:8.7-jdk21 → eclipse-temurin:21-jre-alpine
-```
+
 ---
 
 ## 🏗️ Diagrama de Arquitectura (UML)
@@ -380,4 +379,3 @@ A lo largo del desarrollo de este proyecto y la asignatura se consolidaron apren
 - **Docker y despliegue:** La construcción multi-stage en Docker es una práctica profesional real que reduce dramáticamente el tamaño de la imagen final al separar el entorno de compilación del de ejecución.
 
 ---
-
