@@ -2,13 +2,13 @@
 
 **Documentación Técnica — Proyecto Integrador**  
 `Spring Boot` · `Thymeleaf` · `PostgreSQL` · `JavaScript`  
-Versión 2.0 — mayo 2026 | Autor: Dev.jhoserbriceno · Dev.johanjurado
+Versión 2.0 — Mayo 2026 | Autor: Dev.jhoserbriceno · Dev.johanjurado
 
 ---
 
 ## 📌 URL del Repositorio
 
-🔗 [https://github.com/Jhoser1801/latinoamerica-comparte](https://github.com/Jhoser1801/latinoamerica-comparte)
+🔗 [https://github.com/Jhoser1801/Proyecto_Desarrollo_Empresarial](https://github.com/Jhoser1801/Proyecto_Desarrollo_Empresarial)
 
 ---
 
@@ -43,8 +43,8 @@ El sistema soluciona la necesidad de una **presencia digital estandarizada y ada
 ### Paso 1: Clonar el repositorio
 
 ```bash
-git clone https://github.com/Jhoser1801/latinoamerica-comparte.git
-cd latinoamerica-comparte
+git clone https://github.com/Jhoser1801/Proyecto_Desarrollo_Empresarial.git
+cd Proyecto_Desarrollo_Empresarial
 ```
 
 ### Paso 2: Crear la base de datos
@@ -112,14 +112,14 @@ El administrador inicial se crea automáticamente por `DataSeed.java` si no exis
 
 ```bash
 # Construir imagen
-docker build -t latinoamerica-comparte .
+docker build -t proyecto-desarrollo-empresarial .
 
 # Ejecutar contenedor
 docker run -p 8081:8081 \
   -e DATABASE_URL=jdbc:postgresql://host.docker.internal:5432/latinoamerica_comparte_integrador \
   -e DATABASE_USERNAME=postgres \
   -e DATABASE_PASSWORD=1234 \
-  latinoamerica-comparte
+  proyecto-desarrollo-empresarial
 ```
 
 > El `Dockerfile` usa construcción multi-stage: `gradle:8.7-jdk21` para compilar → `eclipse-temurin:21-jre-alpine` como runtime final (imagen ligera).
@@ -129,7 +129,7 @@ docker run -p 8081:8081 \
 ## 📁 Estructura de Carpetas
 
 ```
-latinoamerica-comparte/
+Proyecto_Desarrollo_Empresarial/
 ├── src/
 │   ├── main/
 │   │   ├── java/dev/jhoserbriceno/latinoamerica/
@@ -329,7 +329,7 @@ Página principal con sección de testimonios (miniaturas automáticas de YouTub
 ![Home — Footer y CTA](docs/ui-home-footer.png)
 
 ### Vista Pública — Formulario de Contacto (`/contact`)
-Formulario con campos, nombre, correo, teléfono y propósito (Servicio, Programa EDIFICA, Shows y conferencias). Incluye validación en tiempo real y mensaje de éxito tras el envío (PRG pattern).
+Formulario con campos nombre, correo, teléfono y propósito (Servicio, Programa EDIFICA, Shows y conferencias). Incluye validación en tiempo real y mensaje de éxito tras el envío (PRG pattern).
 
 ![Formulario de contacto](docs/ui-contacto.png)
 
@@ -350,7 +350,7 @@ Muestra testimonios con miniatura automática del video de YouTube. Permite crea
 ![Panel de testimonios](docs/ui-admin-testimonios.png)
 
 ### Panel Admin — Solicitudes de Contacto (`/admin/contacts`)
-Lista de solicitudes ordenadas de más reciente a más antigua con filtro por propósito. Permite ver el detalle completo de cada solicitud con filas expandibles y eliminarlas.
+Lista solicitudes ordenadas de más reciente a más antigua con filtro por propósito. Permite ver el detalle completo de cada solicitud con filas expandibles y eliminarlas.
 
 ![Buzón de contactos](docs/ui-admin-contactos.png)
 
@@ -361,13 +361,13 @@ Lista de solicitudes ordenadas de más reciente a más antigua con filtro por pr
 ### Retos técnicos
 
 **1. Miniaturas automáticas de YouTube en testimonios**
-El mayor desafío fue lograr que cada testimonio mostrara automáticamente la imagen de previsualización del video de YouTube sin que el administrador tuviera que subir una imagen manualmente. El problema estaba en que las URL de YouTube no tienen un formato único: un mismo video puede llegar como `watch?v=`, `youtu.be/`, `shorts/` o `embed/`, y cada formato requiere una extracción diferente del ID. La solución fue implementar el método `getYoutubeThumbnailUrl()` con la anotación `@Transient` directamente en la entidad, de forma que parsea la URL almacenada en cada uno de sus posibles formatos, extrae el ID del video y construye automáticamente la URL del thumbnail de Google. Así el sistema funciona sin importar qué formato de URL pegué el administrador.
+El mayor desafío fue lograr que cada testimonio mostrara automáticamente la imagen de previsualización del video de YouTube sin que el administrador tuviera que subir una imagen manualmente. El problema estaba en que las URLs de YouTube no tienen un formato único: un mismo video puede llegar como `watch?v=`, `youtu.be/`, `shorts/` o `embed/`, y cada formato requiere una extracción diferente del ID. La solución fue implementar el método `getYoutubeThumbnailUrl()` con la anotación `@Transient` directamente en la entidad, de forma que parsea la URL almacenada en cada uno de sus posibles formatos, extrae el ID del video y construye automáticamente la URL del thumbnail de Google. Así el sistema funciona sin importar qué formato de URL pegue el administrador.
 
 **2. Eliminación del enum RoleName y refactorización del modelo de seguridad**
-Al inicio del proyecto la arquitectura de seguridad incluía un enum `RoleName` con el valor `ADMINISTRADOR`, siguiendo el patrón clásico de Spring Security con tabla de roles. Al avanzar en el desarrollo nos dimos cuenta de que el sistema solo tiene un tipo de usuario (el administrador), por lo que mantener esa estructura generaba complejidad innecesaria: una entidad `Role`, un `RoleRepository`, el enum, y JOIN en cada petición autenticada. El reto fue eliminar todo eso de forma limpia sin romper la autenticación. Se refactorizó la entidad `Admin` para que implementara `UserDetails` directamente y retornara `getAuthorities()` vacío, y el `SecurityConfig` pasó de usar `.hasAuthority()` a `.authenticated()`. El proceso requirió revisar y modificar cada clase que referenciaba `RoleName` para garantizar que nada quedara roto.
+Al inicio del proyecto la arquitectura de seguridad incluía un enum `RoleName` con el valor `ADMINISTRADOR`, siguiendo el patrón clásico de Spring Security con tabla de roles. Al avanzar en el desarrollo nos dimos cuenta de que el sistema solo tiene un tipo de usuario (el administrador), por lo que mantener esa estructura generaba complejidad innecesaria: una entidad `Role`, un `RoleRepository`, el enum, y JOINs en cada petición autenticada. El reto fue eliminar todo eso de forma limpia sin romper la autenticación. Se refactorizó la entidad `Admin` para que implementara `UserDetails` directamente y retornara `getAuthorities()` vacío, y el `SecurityConfig` pasó de usar `.hasAuthority()` a `.authenticated()`. El proceso requirió revisar y modificar cada clase que referenciaba `RoleName` para garantizar que nada quedara roto.
 
 **3. Optimización de animaciones pesadas en el frontend**
-El home público incluye varias animaciones: un efecto parallax en el hero, contadores numéricos animados, un carrusel de testimonios y otro de noticias, además de un menú Hamburguesa responsivo. En las primeras versiones estas animaciones hacían el proyecto notablemente lento, especialmente en dispositivos de gama media. El reto fue optimizarlas sin eliminarlas. La solución fue usar `IntersectionObserver` para que los contadores y animaciones solo se activen cuando el elemento entra en el viewport, evitando cálculos innecesarios en elementos que el usuario aún no ve. Adicionalmente, se reemplazaron algunas animaciones CSS costosas por transiciones más livianas, logrando una experiencia fluida sin sacrificar el diseño.
+El home público incluye varias animaciones: un efecto parallax en el hero, contadores numéricos animados, un carrusel de testimonios y otro de noticias, además de un menú hamburguesa responsivo. En las primeras versiones estas animaciones hacían el proyecto notablemente lento, especialmente en dispositivos de gama media. El reto fue optimizarlas sin eliminarlas. La solución fue usar `IntersectionObserver` para que los contadores y animaciones solo se activen cuando el elemento entra en el viewport, evitando cálculos innecesarios en elementos que el usuario aún no ve. Adicionalmente se reemplazaron algunas animaciones CSS costosas por transiciones más livianas, logrando una experiencia fluida sin sacrificar el diseño.
 
 ### Aprendizajes técnicos
 
@@ -381,7 +381,3 @@ A lo largo del desarrollo de este proyecto y la asignatura se consolidaron apren
 
 ---
 
-## 📄 Entregables
-
-- `README.md` convertido a PDF
-- Comprimido del proyecto (ZIP / 7Z / RAR)
