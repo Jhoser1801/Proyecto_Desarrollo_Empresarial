@@ -35,3 +35,8 @@ out/
 
 ### VS Code ###
 .vscode/
+
+#  AGREGADO: excluir archivo de credenciales locales
+# Este archivo contiene valores sensibles (contraseñas, URLs de BD)
+# Solo se usa en desarrollo local, nunca debe subir al repositorio
+application-local.properties
