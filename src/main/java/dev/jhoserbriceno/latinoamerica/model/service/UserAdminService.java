@@ -66,8 +66,13 @@ public class UserAdminService {
         return adminRepository.save(admin);
     }
 
+    // Se añade existsById() porque deleteById() no lanza excepción si el ID no existe.
+    // Primero se valida existencia, luego la regla de negocio del último admin.
     @Transactional
     public void delete(Long id) {
+        if (!adminRepository.existsById(id)) {
+            throw new EntityNotFoundException("Administrador con id " + id + " no encontrado.");
+        }
         if (adminRepository.count() <= 1) {
             throw new IllegalStateException("No se puede eliminar el único administrador del sistema.");
         }

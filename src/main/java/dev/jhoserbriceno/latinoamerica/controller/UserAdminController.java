@@ -30,19 +30,13 @@ public class UserAdminController {
         return "admin/users/list";
     }
 
-    /* Prepara el formulario de creación enviando un DTO vacío al modelo. */
+    // Prepara el formulario de creación enviando un DTO vacío al modelo.
     @GetMapping("/create")
     public String createForm(Model model) {
         model.addAttribute("userRequest", new CreateUserDTO("", "", ""));
         return "admin/users/create";
     }
 
-    /*
-     * @param dto. Datos del formulario mapeados al DTO
-     * @param result.  Contenedor de errores de validación
-     * @param model. Modelo de la vista actual (NO sobrevive al redirect)
-     * @param redirectAttributes atributos que sí sobreviven al redirect vía sesión
-     */
     @PostMapping
     public String create(
             @Valid @ModelAttribute("userRequest") CreateUserDTO dto,
@@ -77,10 +71,6 @@ public class UserAdminController {
         return "admin/users/update";
     }
 
-    /*
-      @param id   ID del administrador a actualizar, extraído de la URL
-      @param dto  datos del formulario mapeados al DTO de actualización
-     */
     @PutMapping("/{id}")
     public String update(
             @PathVariable Long id,
@@ -111,22 +101,29 @@ public class UserAdminController {
         }
     }
 
+    // Se reemplaza ifPresentOrElse() + flag "notFound" por el patrón estándar del proyecto.
     @GetMapping("/delete/{id}")
     public String confirmDelete(@PathVariable Long id, Model model) {
-        userAdminService.findById(id).ifPresentOrElse(
-                admin -> model.addAttribute("user", admin),
-                () -> model.addAttribute("notFound", true)
-        );
+        Optional<Admin> result = userAdminService.findById(id);
+        if (result.isEmpty()) {
+            model.addAttribute("title", "Eliminar Administrador");
+            return "error/not-found";
+        }
+        model.addAttribute("user", result.get());
         return "admin/users/delete";
     }
 
+    // Se añade Model y captura de EntityNotFoundException para cubrir el caso de ID inexistente.
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+    public String delete(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
         try {
             userAdminService.delete(id);
             redirectAttributes.addFlashAttribute("successMessage", "Administrador eliminado correctamente.");
         } catch (IllegalStateException e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        } catch (EntityNotFoundException e) {
+            model.addAttribute("title", "Eliminar Administrador");
+            return "error/not-found";
         }
         return "redirect:/admin/users";
     }
