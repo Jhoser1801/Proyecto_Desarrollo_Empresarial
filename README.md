@@ -349,7 +349,7 @@ Muestra testimonios con miniatura automática del video de YouTube. Permite crea
 ![Panel de testimonios](docs/ui-admin-testimonios.png)
 
 ### Panel Admin — Solicitudes de Contacto (`/admin/contacts`)
-Lista solicitudes ordenadas de más reciente a más antigua con filtro por propósito. Permite ver el detalle completo de cada solicitud con filas expandibles y eliminarlas.
+Lista de solicitudes ordenadas de más reciente a más antigua con filtro por propósito. Permite ver el detalle completo de cada solicitud con filas expandibles y eliminarlas.
 
 ![Buzón de contactos](docs/ui-admin-contactos.png)
 
