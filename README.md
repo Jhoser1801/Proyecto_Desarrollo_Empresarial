@@ -216,8 +216,16 @@ Proyecto_Desarrollo_Empresarial/
 │   ├── ui-admin-dashboard.png
 │   ├── ui-admin-dashboard-grafica.png
 │   ├── ui-admin-noticias.png
+│   ├── ui-admin-noticias-crear.png
+│   ├── ui-admin-noticias-editar.png
+│   ├── ui-admin-noticias-eliminar.png
 │   ├── ui-admin-testimonios.png
-│   └── ui-admin-contactos.png
+│   ├── ui-admin-testimonios-crear.png
+│   ├── ui-admin-testimonios-editar.png
+│   ├── ui-admin-testimonios-eliminar.png
+│   ├── ui-admin-contactos.png
+│   ├── ui-admin-contactos-detalle.png
+│   └── ui-admin-contactos-eliminar.png
 ├── build.gradle          ← Dependencias y plugins (Spring Boot 4.0.5, Java 21, Gradle 8.7)
 ├── settings.gradle       ← Nombre del proyecto: LatinoamericaComparte
 ├── README.md             ← Documentación del proyecto
@@ -342,16 +350,24 @@ Tarjetas con conteos de testimonios, noticias, solicitudes y administradores. Gr
 Lista todas las noticias con estado (Publicado/Borrador) y fecha. Permite crear, editar y eliminar noticias con formulario de previsualización en tiempo real. Las noticias en Borrador no son visibles en el home público.
 
 ![Panel de noticias](docs/ui-admin-noticias.png)
+![Crear noticia](docs/ui-admin-noticias-crear.png)
+![Editar noticia](docs/ui-admin-noticias-editar.png)
+![Eliminar noticia](docs/ui-admin-noticias-eliminar.png)
 
 ### Panel Admin — Gestión de Testimonios (`/admin/testimonials`)
 Muestra testimonios con miniatura automática del video de YouTube. Permite crear, editar y eliminar testimonios indicando nombre, URL del video y redes sociales.
 
 ![Panel de testimonios](docs/ui-admin-testimonios.png)
+![Crear testimonio](docs/ui-admin-testimonios-crear.png)
+![Editar testimonio](docs/ui-admin-testimonios-editar.png)
+![Eliminar testimonio](docs/ui-admin-testimonios-eliminar.png)
 
 ### Panel Admin — Solicitudes de Contacto (`/admin/contacts`)
 Lista de solicitudes ordenadas de más reciente a más antigua con filtro por propósito. Permite ver el detalle completo de cada solicitud con filas expandibles y eliminarlas.
 
 ![Buzón de contactos](docs/ui-admin-contactos.png)
+![Detalle de contacto](docs/ui-admin-contactos-detalle.png)
+![Eliminar contacto](docs/ui-admin-contactos-eliminar.png)
 
 ---
 
