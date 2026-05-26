@@ -122,8 +122,9 @@ async function compartirPagina() {
         }
     }
 }
+
 // ============================================================
-// SCRIPT: FIX MÓVIL PARA SLIDERS (Migrado desde home.html)
+// SCRIPT: FIX MÓVIL PARA SLIDERS
 // ============================================================
 
 // Ocultar scrollbar visual en navegadores webkit (Chrome, Safari)
@@ -134,39 +135,34 @@ document.head.appendChild(sliderStyle);
 // Función que agrega soporte de swipe táctil a un elemento slider
 function addSwipeSupport(el) {
     if (!el) return;
-    let startX = 0;      // posición X donde empieza el toque
-    let startY = 0;      // posición Y donde empieza el toque
-    let scrollStart = 0; // scroll inicial del contenedor al tocar
-    let isHorizontal = null; // null = aún no determinado
+    let startX = 0;
+    let startY = 0;
+    let scrollStart = 0;
+    let isHorizontal = null;
 
-    // Al tocar la pantalla, guardar posición inicial
     el.addEventListener('touchstart', e => {
         startX = e.touches[0].clientX;
         startY = e.touches[0].clientY;
         scrollStart = el.scrollLeft;
-        isHorizontal = null; // reiniciar en cada toque
+        isHorizontal = null;
     }, { passive: true });
 
-    // Al mover el dedo, determinar dirección y aplicar scroll solo si es horizontal
     el.addEventListener('touchmove', e => {
         const deltaX = startX - e.touches[0].clientX;
         const deltaY = startY - e.touches[0].clientY;
 
-        // En el primer movimiento, determinar si el gesto es horizontal o vertical
         if (isHorizontal === null) {
             isHorizontal = Math.abs(deltaX) > Math.abs(deltaY);
         }
 
-        // Solo intervenir si el gesto es horizontal
         if (isHorizontal) {
-            e.preventDefault(); // evita que la página se mueva verticalmente
+            e.preventDefault();
             el.scrollLeft = scrollStart + deltaX;
         }
-        // Si es vertical, no hacemos nada → el navegador maneja el scroll de página normalmente
-    }, { passive: false }); // passive: false es necesario para poder llamar preventDefault()
+        // Si es vertical, el navegador maneja el scroll de página normalmente
+    }, { passive: false });
 }
 
-// Inicializar el soporte táctil de manera segura una vez cargue el DOM
 document.addEventListener("DOMContentLoaded", () => {
     const testimonialSlider = document.getElementById('slider');
     const newsSlider = document.getElementById('newsSlider');
