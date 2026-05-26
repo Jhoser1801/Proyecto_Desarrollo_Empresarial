@@ -135,19 +135,35 @@ document.head.appendChild(sliderStyle);
 function addSwipeSupport(el) {
     if (!el) return;
     let startX = 0;      // posición X donde empieza el toque
+    let startY = 0;      // posición Y donde empieza el toque
     let scrollStart = 0; // scroll inicial del contenedor al tocar
+    let isHorizontal = null; // null = aún no determinado
 
     // Al tocar la pantalla, guardar posición inicial
     el.addEventListener('touchstart', e => {
         startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
         scrollStart = el.scrollLeft;
+        isHorizontal = null; // reiniciar en cada toque
     }, { passive: true });
 
-    // Al mover el dedo, calcular cuánto se movió y aplicar al scroll
+    // Al mover el dedo, determinar dirección y aplicar scroll solo si es horizontal
     el.addEventListener('touchmove', e => {
-        const delta = startX - e.touches[0].clientX;
-        el.scrollLeft = scrollStart + delta;
-    }, { passive: true });
+        const deltaX = startX - e.touches[0].clientX;
+        const deltaY = startY - e.touches[0].clientY;
+
+        // En el primer movimiento, determinar si el gesto es horizontal o vertical
+        if (isHorizontal === null) {
+            isHorizontal = Math.abs(deltaX) > Math.abs(deltaY);
+        }
+
+        // Solo intervenir si el gesto es horizontal
+        if (isHorizontal) {
+            e.preventDefault(); // evita que la página se mueva verticalmente
+            el.scrollLeft = scrollStart + deltaX;
+        }
+        // Si es vertical, no hacemos nada → el navegador maneja el scroll de página normalmente
+    }, { passive: false }); // passive: false es necesario para poder llamar preventDefault()
 }
 
 // Inicializar el soporte táctil de manera segura una vez cargue el DOM
