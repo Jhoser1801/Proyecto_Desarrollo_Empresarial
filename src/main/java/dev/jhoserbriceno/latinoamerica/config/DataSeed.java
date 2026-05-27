@@ -55,35 +55,35 @@ public class DataSeed implements CommandLineRunner {
 
         // 2. Testimonios — videos reales de Colombia Comparte
         Testimonial t1 = new Testimonial();
-        t1.setName("Ecuador Comparte");
+        t1.setName("Diana Lindo");
         t1.setVideoUrl("https://youtube.com/shorts/lYeEKG9Gr38");
         t1.setInstagramUrl("https://instagram.com/colombiacomparte");
         t1.setFacebookUrl("https://facebook.com/colombiacomparte");
         testimonialRepository.save(t1);
 
         Testimonial t2 = new Testimonial();
-        t2.setName("Ecuador Comparte");
+        t2.setName("Enrique Amores");
         t2.setVideoUrl("https://youtube.com/shorts/llTZr8jl6HM");
         t2.setInstagramUrl("https://instagram.com/colombiacomparte");
         t2.setFacebookUrl("https://facebook.com/colombiacomparte");
         testimonialRepository.save(t2);
 
         Testimonial t3 = new Testimonial();
-        t3.setName("Ecuador Comparte");
+        t3.setName("Video Expansión");
         t3.setVideoUrl("https://youtube.com/shorts/DQzp7-0SBhI");
         t3.setInstagramUrl("https://instagram.com/colombiacomparte");
         t3.setFacebookUrl("https://facebook.com/colombiacomparte");
         testimonialRepository.save(t3);
 
         Testimonial t4 = new Testimonial();
-        t4.setName("Ecuador Comparte");
+        t4.setName("Andrea Carolina Aponte");
         t4.setVideoUrl("https://youtube.com/shorts/-A6rql7lPD8");
         t4.setInstagramUrl("https://instagram.com/colombiacomparte");
         t4.setFacebookUrl("https://facebook.com/colombiacomparte");
         testimonialRepository.save(t4);
 
         Testimonial t5 = new Testimonial();
-        t5.setName("Ecuador Comparte");
+        t5.setName("Andres Rodriguez");
         t5.setVideoUrl("https://youtube.com/shorts/yeFS-x_5ZHA");
         t5.setInstagramUrl("https://instagram.com/colombiacomparte");
         t5.setFacebookUrl("https://facebook.com/colombiacomparte");
